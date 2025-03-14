@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="395.0" layoutY="88.0" text="REGISTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="250.0" layoutY="189.0" prefHeight="280.0" prefWidth="450.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="140.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="383.0" minWidth="10.0" prefWidth="314.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Full Name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Account" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Password" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Re-password" GridPane.rowIndex="3">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Date of Birth" GridPane.rowIndex="4">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Gender" GridPane.rowIndex="5">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Phone" GridPane.rowIndex="6">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Email" GridPane.rowIndex="7">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="fullNameTF" GridPane.columnIndex="1" />
+            <TextField fx:id="accountTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="rePasswordTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="phoneTF" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="emailTF" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <DatePicker fx:id="dobDP" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
+                  <RadioButton fx:id="maleRB" mnemonicParsing="false" text="Male">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="femaleRB" mnemonicParsing="false" text="Female">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" top="7.0" />
+                     </HBox.margin>
+                  </RadioButton>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <Button fx:id="registerButton" layoutX="425.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Register">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Text fill="RED" fontSmoothingType="LCD" layoutX="278.0" layoutY="509.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attention: Require personal information to be accurate !">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="comeBackButton" layoutX="38.0" layoutY="40.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Come back" />
+   </children>
+</AnchorPane>

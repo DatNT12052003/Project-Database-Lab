@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <Label layoutX="420.0" layoutY="98.0" text="LOG IN">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="220.0" layoutY="278.0" text="Account">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="220.0" layoutY="350.0" text="Password">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TextField fx:id="accountTF" layoutX="371.0" layoutY="284.0" prefHeight="25.0" prefWidth="339.0" />
+      <Button fx:id="logInButton" layoutX="450.0" layoutY="466.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="40.0" prefWidth="100.0" text="Log in">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <PasswordField fx:id="passwordTF" layoutX="371.0" layoutY="356.0" prefHeight="25.0" prefWidth="339.0" />
+      <Text fontSmoothingType="LCD" layoutX="318.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you do not have an account, please">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fill="#4602ff" fontSmoothingType="LCD" layoutX="588.0" layoutY="427.0" onMouseClicked="#handleRegister" strokeType="OUTSIDE" strokeWidth="0.0" text="REGISTER" underline="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
