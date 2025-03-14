@@ -34,8 +34,8 @@ public class UserDAO {
 	    return user;
 	}
 	
-	public void insertUser(String userid, String account, String password, String role) {
-		String sql = "INSERT INTO users (userid, account, password, role, status) VALUES (?, ?, ?, ?, 'active')";
+	public void insertUser(String userid, String account, String password, String role, String createddate) {
+		String sql = "INSERT INTO users (userid, account, password, role, status, createddate) VALUES (?, ?, ?, ?, 'active', ?)";
 		
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -43,6 +43,7 @@ public class UserDAO {
 			pstmt.setString(2, account);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);
+			pstmt.setString(5, createddate);
 			
 			int affectedRows = pstmt.executeUpdate();
 			

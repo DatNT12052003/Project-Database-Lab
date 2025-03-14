@@ -72,8 +72,6 @@
             </Label>
             <TextField fx:id="fullNameTF" GridPane.columnIndex="1" />
             <TextField fx:id="accountTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="rePasswordTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="phoneTF" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="emailTF" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <DatePicker fx:id="dobDP" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -97,6 +95,8 @@
                   </RadioButton>
                </children>
             </HBox>
+            <PasswordField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="rePasswordTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Button fx:id="registerButton" layoutX="425.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="40.0" prefWidth="100.0" text="Register">

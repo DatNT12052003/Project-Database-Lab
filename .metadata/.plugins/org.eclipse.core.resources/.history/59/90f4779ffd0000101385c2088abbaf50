@@ -1,0 +1,14 @@
+package hash_password;
+
+import org.mindrot.jbcrypt.BCrypt;
+
+public class HashPassword {
+	public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // 12 là độ mạnh của salt
+    }
+
+    // Kiểm tra mật khẩu nhập vào với mật khẩu đã băm
+    public static boolean checkPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
+    }
+}

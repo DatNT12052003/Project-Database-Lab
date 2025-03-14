@@ -1,6 +1,6 @@
 CREATE TABLE students (
     StudentID VARCHAR(10) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL,
+    FullName VARCHAR(50) NOT NULL,
     DateOfBirth DATE NOT NULL,
     Gender ENUM('male', 'female') NOT NULL,
     Phone VARCHAR(15) UNIQUE,
@@ -9,7 +9,7 @@ CREATE TABLE students (
 
 CREATE TABLE teachers (
     TeacherID VARCHAR(10) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL,
+    FullName VARCHAR(50) NOT NULL,
     DateOfBirth DATE NOT NULL,
     Gender ENUM('male', 'female') NOT NULL,
     Phone VARCHAR(15) UNIQUE,

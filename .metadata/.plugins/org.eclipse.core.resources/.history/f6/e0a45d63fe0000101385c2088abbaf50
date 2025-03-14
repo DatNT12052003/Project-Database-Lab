@@ -1,0 +1,44 @@
+package hash_password;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+public class HashPassword {
+    private static final int ITERATIONS = 10000; // Số vòng lặp (tăng độ khó)
+    private static final int KEY_LENGTH = 256;  // Độ dài khóa (bits)
+
+    // Tạo salt ngẫu nhiên (16 bytes = 128-bit)
+    public static String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16]; // 128-bit
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    // Băm mật khẩu với salt bằng PBKDF2
+    public static String hashPBKDF2(String password, String salt) {
+        try {
+            PBEKeySpec spec = new PBEKeySpec(
+                password.toCharArray(), 
+                Base64.getDecoder().decode(salt), 
+                ITERATIONS, 
+                KEY_LENGTH
+            );
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException("Lỗi thuật toán băm", e);
+        }
+    }
+
+    // Kiểm tra mật khẩu nhập vào có khớp với mật khẩu đã băm không
+    public static boolean verifyPassword(String inputPassword, String storedHash, String storedSalt) {
+        String newHash = hashPBKDF2(inputPassword, storedSalt);
+        return newHash.equals(storedHash);
+    }
+}

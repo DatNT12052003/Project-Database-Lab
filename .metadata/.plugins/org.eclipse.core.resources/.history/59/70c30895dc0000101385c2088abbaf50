@@ -1,0 +1,124 @@
+package controller;
+
+import java.io.IOException;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
+import model.person.StudentDAO;
+import model.person.TeacherDAO;
+import model.user.UserDAO;
+
+public class RegisterController {
+	
+	 private UserDAO userDAO = new UserDAO();
+	 
+	 private StudentDAO studentDAO = new StudentDAO();
+	 
+	 private TeacherDAO teacherDAO = new TeacherDAO();
+	
+	@FXML
+	private Button comeBackButton;
+	
+	@FXML
+	private TextField fullNameTF;
+	
+	@FXML
+	private TextField accountTF;
+	
+	@FXML
+	private TextField passwordTF;
+	
+	@FXML
+	private TextField rePasswordTF;
+	
+	@FXML
+	private DatePicker dobDP;
+	
+	@FXML
+	private RadioButton maleRB;
+	
+	@FXML
+	private RadioButton femaleRB;
+	
+	@FXML
+	private TextField phoneTF;
+	
+	@FXML
+	private TextField emailTF;
+	
+	@FXML
+	private Button registerButton;
+	
+	private ToggleGroup genderGroup = new ToggleGroup();
+	
+	@FXML
+	private void initialize() {
+		maleRB.setToggleGroup(genderGroup);
+		femaleRB.setToggleGroup(genderGroup);
+	//	maleRB.setSelected(true);
+	}
+	
+	
+	@FXML
+	private void handleComeBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginView.fxml"));
+            Stage stage = (Stage) registerButton.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Login View");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Eror", "Can not open Login View");
+        }
+	}
+	
+	@FXML
+	private void handleRegister() {
+		String fullName = fullNameTF.getText();
+		String account = accountTF.getText();
+		String password = passwordTF.getText();
+		String rePassword = rePasswordTF.getText();
+		
+		String dob = null;
+		if(dobDP.getValue() != null) {
+			dob = dobDP.getValue().toString();
+		}
+		
+		RadioButton selectedRadio = (RadioButton) genderGroup.getSelectedToggle();
+		String gender = null;
+		if(selectedRadio != null) {
+			gender = selectedRadio.getText();
+		}
+		
+		String phone = phoneTF.getText();
+		String email = emailTF.getText();
+		
+		if(fullName.isEmpty() || account.isEmpty() || password.isEmpty() || rePassword.isEmpty() || dob==null || gender==null) {
+			showAlert("Error", "Not enough information has been entered!");
+		}else if(!passwordTF.getText().equals(rePasswordTF.getText())) {
+			showAlert("Error", "Password and re-password are different!");
+		}else {
+			System.out.println(fullName + " + " + account + " + " + password + " + " + rePassword + " + " + dob + " + " + gender + " + " + phone + " + " + email );
+			System.out.println("==========================");
+		}
+		System.out.println(fullName + " + " + account + " + " + password + " + " + rePassword + " + " + dob + " + " + gender + " + " + phone + " + " + email );
+	}
+	
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+	
+}
