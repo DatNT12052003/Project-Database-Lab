@@ -1,0 +1,54 @@
+package controller.admin;
+
+import java.io.IOException;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+
+public class MainViewController {
+	
+	@FXML
+	private Button homeButton;
+	
+	@FXML
+	private Button managementButton;
+	
+	@FXML
+	private Button scheduleButton;
+	
+	@FXML
+	private Button logOutButton;
+	
+	@FXML
+	private AnchorPane mainScene;
+	
+	@FXML
+	private void initialize() throws IOException {
+		handleOpenHome();
+	}
+	
+	@FXML
+	private void handleOpenHome() throws IOException {
+    	Pane scene1 = FXMLLoader.load(getClass().getResource("/view/admin/HomeScene.fxml"));
+    	mainScene.getChildren().setAll(scene1);
+	}
+	
+	@FXML
+	private void handleOpenManagement() {
+		
+	}
+	
+	@FXML
+	private void handleOpenSchedule() {
+		
+	}
+	
+	@FXML
+	private void handleLogout() {
+		
+	}
+	
+}

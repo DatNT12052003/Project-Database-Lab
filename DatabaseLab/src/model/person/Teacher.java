@@ -6,6 +6,10 @@ public class Teacher extends Person{
 	private String level;
 	private int salary;
 	
+	public Teacher() {
+		super();
+	}
+	
 	public Teacher(String teacherid, String expertise, String level, int salary) {
 		super();
 		this.teacherid = teacherid;

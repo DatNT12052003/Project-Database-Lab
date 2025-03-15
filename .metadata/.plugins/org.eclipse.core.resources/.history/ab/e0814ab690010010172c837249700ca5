@@ -1,0 +1,88 @@
+package model.user;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import connection_database.*;
+import javafx.collections.ObservableList;
+
+public class UserDAO {
+	
+	public User getUserByAccount(String account) {
+	    String sql = "SELECT * FROM users WHERE account = ?";
+	    User user = null;
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, account);
+	        ResultSet resultSet = pstmt.executeQuery();
+
+	        if (resultSet.next()) {
+	            user = new User();
+	            user.setAccount(resultSet.getString("account"));
+	            user.setPassword(resultSet.getString("password"));
+	            user.setRole(resultSet.getString("role"));
+	            user.setStatus(resultSet.getString("status"));
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return user;
+	}
+	
+	public ObservableList<User> getAllUsers(){
+		String sql = "SELECT * FROM users";
+		ObservableList<User> userList = null;
+		
+	    try (Connection conn = DatabaseConnection.getConnection();
+	    		Statement stmt = conn.createStatement();
+	    		ResultSet resultSet = stmt.executeQuery(sql);) {
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setUserid(resultSet.getString("userid")); 
+                user.setUserid(resultSet.getString("account")); 
+                user.setUserid(resultSet.getString("password")); 
+                user.setUserid(resultSet.getString("role")); 
+                user.setUserid(resultSet.getString("status")); 
+                user.setUserid(resultSet.getString("createdDate")); 
+                
+                userList.add(user);
+            }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		return userList;
+	}
+	
+	public void insertUser(String userid, String account, String password, String role, String createddate) {
+		String sql = "INSERT INTO users (userid, account, password, role, status, createddate) VALUES (?, ?, ?, ?, 'active', ?)";
+		
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, userid);
+			pstmt.setString(2, account);
+			pstmt.setString(3, password);
+			pstmt.setString(4, role);
+			pstmt.setString(5, createddate);
+			
+			int affectedRows = pstmt.executeUpdate();
+			
+            if (affectedRows > 0) {
+                System.out.println("Insert completed!");
+            } else {
+                System.out.println("Error insert!");
+            }
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

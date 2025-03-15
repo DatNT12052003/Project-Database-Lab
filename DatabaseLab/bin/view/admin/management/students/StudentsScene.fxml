@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="20.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextField layoutX="100.0" layoutY="9.0" prefWidth="300.0" />
+      <ChoiceBox layoutX="411.0" layoutY="9.0" prefWidth="100.0" />
+      <TableView layoutX="20.0" layoutY="46.0" prefHeight="500.0" prefWidth="650.0">
+        <columns>
+          <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Student ID" />
+          <TableColumn maxWidth="170.0" minWidth="170.0" prefWidth="170.0" text="Full Name" />
+            <TableColumn maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Date Of Birth" />
+            <TableColumn maxWidth="80.0" minWidth="80.0" text="Gender" />
+            <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Phone" />
+            <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Email" />
+        </columns>
+      </TableView>
+      <VBox layoutX="676.0" layoutY="46.0" prefHeight="500.0" prefWidth="100.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Add">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Update">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Delete">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Detail">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

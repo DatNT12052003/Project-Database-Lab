@@ -1,0 +1,108 @@
+package controller.admin.management.users;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import hash_password.HashPassword;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.user.User;
+import model.user.UserDAO;
+
+public class UpdateUserPopUpController {
+	
+    private UsersSceneController usersSceneController;
+
+    public void setUsersSceneController(UsersSceneController usersSceneController) {
+        this.usersSceneController = usersSceneController;
+    }
+	
+	public UsersSceneController getUsersSceneController() {
+		return usersSceneController;
+	}
+	
+	@FXML
+	private TextField accountTF;
+	
+	@FXML
+	private TextField passwordTF;
+	
+	
+	@FXML
+	private ComboBox<String> roleCB;
+	
+	@FXML
+	private Button okButton;
+	
+	private User user;
+	
+	private UserDAO userDAO;
+	
+	public void setUser(User user) {
+		this.user = user;
+		accountTF.setText(user.getAccount());
+		if(user.getRole().equals("teacher")) {
+			roleCB.setValue("Teacher");
+		}else {
+			roleCB.setValue("Student");
+		}
+	}
+	
+	@FXML
+	private void initialize() {
+		roleCB.getItems().addAll("Teacher", "Student");
+	}
+	
+	@FXML
+	private void handleOk() {
+		String account = accountTF.getText();
+		String password = passwordTF.getText();
+		String role = roleCB.getValue().toLowerCase();
+		
+		String userid = "";
+		
+		if(role.equals(user.getRole())) {
+			userid = user.getUserid();
+		} else {
+			if(role.equals("teacher")) {
+				userid = userDAO.generateTeacherID();
+			} else {
+				userid = userDAO.generateStudentID();
+			}
+		}
+		
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+		
+		if(account.isEmpty() || password.isEmpty()) {
+			showErrorAlert("Error", "Not enough information has been entered!");
+		} else {
+			userDAO.updateUser(userid, account, HashPassword.hashSHA256(password), role, formattedDateTime);
+			showCompletedAlert("Completed", "Update user successful!");
+			
+	        ((Stage) okButton.getScene().getWindow()).close();
+		}
+	}
+	
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    private void showCompletedAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+	
+}

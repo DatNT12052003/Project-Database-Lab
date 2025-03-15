@@ -10,10 +10,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginView.fxml")); // Đảm bảo tệp FXML có tên đúng
+        Parent root = FXMLLoader.load(getClass().getResource("/view/other/LoginView.fxml")); // Đảm bảo tệp FXML có tên đúng
         Scene scene = new Scene(root);
         
-        primaryStage.setTitle("Main");
+        primaryStage.setTitle("Log In");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

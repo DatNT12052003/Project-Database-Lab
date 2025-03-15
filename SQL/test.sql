@@ -22,8 +22,13 @@ modify column status tinyint(1) check (status in (0,1)) not null;
 
 desc users;
 
+desc teachers;
+
 alter table teachers
 change column name FullName VARCHAR(50) NOT NULL; 
+
+alter table teachers
+change column name TeacherID VARCHAR(6) NOT NULL; 
 
 desc students;
 
@@ -63,3 +68,8 @@ DELETE FROM students
 WHERE studentid = 'S000000002';
 
 ALTER TABLE users ADD COLUMN CreatedDate datetime not null;
+
+desc schedules;
+
+select * from users
+inner join students on users.UserID = students.StudentID and users.UserID = 'S000000001';

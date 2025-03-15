@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.admin.MainViewController">
    <children>
       <VBox prefHeight="700.0" prefWidth="150.0">
          <children>
@@ -18,7 +17,7 @@
                   <Insets left="25.0" top="10.0" />
                </VBox.margin>
             </ImageView>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Home">
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleOpenHome" prefHeight="35.0" prefWidth="140.0" text="Home">
                <font>
                   <Font size="16.0" />
                </font>
@@ -26,7 +25,7 @@
                   <Insets left="5.0" top="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Schedule">
+            <Button fx:id="managementButton" mnemonicParsing="false" onAction="#handleOpenManagement" prefHeight="35.0" prefWidth="140.0" text="Management">
                <font>
                   <Font size="16.0" />
                </font>
@@ -34,7 +33,7 @@
                   <Insets left="5.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Management">
+            <Button fx:id="scheduleButton" mnemonicParsing="false" onAction="#handleOpenSchedule" prefHeight="35.0" prefWidth="140.0" text="Schedule">
                <font>
                   <Font size="16.0" />
                </font>
@@ -54,7 +53,7 @@
                   <Insets left="650.0" top="18.0" />
                </HBox.margin>
             </Text>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Log out">
+            <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="70.0" text="Log out">
                <font>
                   <Font size="14.0" />
                </font>
@@ -64,6 +63,6 @@
             </Button>
          </children>
       </HBox>
-      <AnchorPane layoutX="150.0" layoutY="50.0" prefHeight="650.0" prefWidth="850.0" />
+      <AnchorPane fx:id="mainScene" layoutX="150.0" layoutY="50.0" prefHeight="650.0" prefWidth="850.0" />
    </children>
 </AnchorPane>

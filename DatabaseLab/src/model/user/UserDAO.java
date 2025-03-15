@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import connection_database.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class UserDAO {
 	
@@ -34,7 +37,79 @@ public class UserDAO {
 	    return user;
 	}
 	
-	public void insertUser(String userid, String account, String password, String role, String createddate) {
+	public ObservableList<User> getAllUsers() {
+        String sql = "SELECT * FROM users";
+        ObservableList<User> userList = FXCollections.observableArrayList();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setUserid(resultSet.getString("userid"));  
+                user.setAccount(resultSet.getString("account")); 
+                user.setPassword(resultSet.getString("password")); 
+                user.setRole(resultSet.getString("role"));  
+                user.setStatus(resultSet.getString("status"));  
+                user.setCreatedDate(resultSet.getString("createdDate")); 
+
+                userList.add(user); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+	
+	private int getCountStudents() {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM users WHERE userid LIKE 'S%'";
+		
+		try(Connection conn = DatabaseConnection.getConnection();
+	             Statement stmt = conn.createStatement();
+	             ResultSet result = stmt.executeQuery(sql)){
+			
+			if (result.next()) {
+                count = result.getInt(1);
+            }
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+    public String generateStudentID() {
+        int count = getCountStudents() + 1; // Đếm số sinh viên hiện có rồi +1
+        return String.format("S%09d", count); // Định dạng thành S000000001
+    }
+	
+	private int getCountTeachers() {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM users WHERE userid LIKE 'T%'";
+		
+		try(Connection conn = DatabaseConnection.getConnection();
+	             Statement stmt = conn.createStatement();
+	             ResultSet result = stmt.executeQuery(sql)){
+			
+			if (result.next()) {
+                count = result.getInt(1);
+            }
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+    public String generateTeacherID() {
+        int count = getCountTeachers() + 1; 
+        return String.format("T%09d", count);
+    }
+    
+	public void insertUser(String userid, String account, String password, String role, String createdDate) {
 		String sql = "INSERT INTO users (userid, account, password, role, status, createddate) VALUES (?, ?, ?, ?, 'active', ?)";
 		
 		try (Connection conn = DatabaseConnection.getConnection();
@@ -43,7 +118,7 @@ public class UserDAO {
 			pstmt.setString(2, account);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);
-			pstmt.setString(5, createddate);
+			pstmt.setString(5, createdDate);
 			
 			int affectedRows = pstmt.executeUpdate();
 			
@@ -57,4 +132,75 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateUser(String userid, String account, String password, String role, String status, String createdDate) {
+	    String sql = "UPDATE users SET account = ?, password = ?, role = ?, status = ?, createdDate = ? WHERE userid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, account);
+	        pstmt.setString(2, password);
+	        pstmt.setString(3, role);
+	        pstmt.setString(4, status);
+	        pstmt.setString(5, createdDate);
+	        pstmt.setString(6, userid);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Update successful!");
+	        } else {
+	            System.out.println("Error updating user!");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}	
+	
+	public void updateStatusUser(String userid, String status) {
+	    String sql = "UPDATE users SET status = ? WHERE userid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, status);
+	        pstmt.setString(2, userid);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Update successful!");
+	        } else {
+	            System.out.println("Error updating user!");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void deleteUser(String userId) {
+	    String sql = "DELETE FROM users WHERE userid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, userId);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Delete successful!");
+	        } else {
+	            System.out.println("Error deleting user! User not found.");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 }

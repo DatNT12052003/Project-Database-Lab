@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.sql.SQLException"/>
-    <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
     <fullyQualifiedTypeName name="javafx.fxml.Initializable"/>
     <fullyQualifiedTypeName name="model.person.StudentDAO"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ToggleGroup"/>
     <fullyQualifiedTypeName name="model.user.User"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="hash_password.HashPassword"/>
+    <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+    <fullyQualifiedTypeName name="javafx.embed.swt.FXCanvas"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.cell.PropertyValueFactory"/>
+    <fullyQualifiedTypeName name="controller.admin.management.users.UpdateUserPopUpController"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
+    <fullyQualifiedTypeName name="controller.admin.management.users.DetailUserPopUpController"/>
 </qualifiedTypeNameHistroy>

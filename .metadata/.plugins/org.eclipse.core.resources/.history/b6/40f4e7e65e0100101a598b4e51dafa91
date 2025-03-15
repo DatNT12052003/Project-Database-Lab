@@ -1,0 +1,45 @@
+package controller.admin;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
+public class MainViewController {
+	
+	@FXML
+	private Button homeButton;
+	
+	@FXML
+	private Button managementButton;
+	
+	@FXML
+	private Button scheduleButton;
+	
+	@FXML
+	private Button logOutButton;
+	
+	@FXML
+	private void initialize() {
+		handleOpenHome();
+	}
+	
+	@FXML
+	private void handleOpenHome() {
+		
+	}
+	
+	@FXML
+	private void handleOpenManagement() {
+		
+	}
+	
+	@FXML
+	private void handleOpenSchedule() {
+		
+	}
+	
+	@FXML
+	private void handleLogout() {
+		
+	}
+	
+}
