@@ -15,4 +15,8 @@
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
     <fullyQualifiedTypeName name="controller.admin.management.users.DetailUserPopUpController"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.PasswordField"/>
+    <fullyQualifiedTypeName name="model.person.TeacherDAO"/>
+    <fullyQualifiedTypeName name="model.person.Teacher"/>
+    <fullyQualifiedTypeName name="controller.admin.management.teachers.AddTeacherPopUpController"/>
 </qualifiedTypeNameHistroy>

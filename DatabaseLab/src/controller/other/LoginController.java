@@ -41,7 +41,7 @@ public class LoginController {
 
         if (user == null) {
             showAlert("Lỗi", "Tài khoản không tồn tại!");
-        } else if (HashPassword.checkPassword(user.getPassword(), password)) {
+        } else if (!HashPassword.checkPassword(password, user.getPassword())) {
             showAlert("Lỗi", "Sai mật khẩu!");
         } else if(user.getStatus().equals("locked")) {
         	showAlert("Lỗi", "Tài khoản này đã bị khóa!");

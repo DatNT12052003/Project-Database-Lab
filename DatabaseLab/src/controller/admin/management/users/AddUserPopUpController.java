@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.user.UserDAO;
@@ -17,7 +18,7 @@ public class AddUserPopUpController {
 	private TextField accountTF;
 	
 	@FXML
-	private TextField passwordTF;
+	private PasswordField passwordTF;
 	
 	@FXML
 	private ComboBox<String> roleCB;
@@ -65,7 +66,12 @@ public class AddUserPopUpController {
 			showErrorAlert("Error", "Not enough information has been entered!");
 		} else {
 			userDAO.insertUser(userid, account, HashPassword.hashSHA256(password), role, formattedDateTime);
-			showCompletedAlert("Completed", "Add user successful!");
+			
+			String message = "Account: " + account + "\n"
+					+ "Password: " + password + "\n"
+                    + "Role: " + role + "\n";
+			
+			showCompletedAlert("Success", message);
 			
 	        ((Stage) okButton.getScene().getWindow()).close();
 		}
@@ -74,7 +80,7 @@ public class AddUserPopUpController {
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setHeaderText(null);
+        alert.setHeaderText("ERROR");
         alert.setContentText(message);
         alert.showAndWait();
     }
@@ -82,7 +88,7 @@ public class AddUserPopUpController {
     private void showCompletedAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setHeaderText(null);
+        alert.setHeaderText("Account Created Successfully!");
         alert.setContentText(message);
         alert.showAndWait();
     }

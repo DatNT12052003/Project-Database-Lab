@@ -10,8 +10,8 @@ public class Teacher extends Person{
 		super();
 	}
 	
-	public Teacher(String teacherid, String expertise, String level, int salary) {
-		super();
+	public Teacher(String teacherid, String fullName, String dateOfBirth, String gender, String phone, String email,String expertise, String level, int salary) {
+		super(fullName, dateOfBirth, gender, phone, email);
 		this.teacherid = teacherid;
 		this.expertise = expertise;
 		this.level = level;
@@ -42,4 +42,12 @@ public class Teacher extends Person{
 	public void setSalary(int salary) {
 		this.salary = salary;
 	}
+	
+	@Override
+	public String toString() {
+	    return super.toString() + ", Teacher ID: " + teacherid + 
+	           ", Expertise: " + expertise + ", Level: " + level + 
+	           ", Salary: " + salary;
+	}
+	
 }

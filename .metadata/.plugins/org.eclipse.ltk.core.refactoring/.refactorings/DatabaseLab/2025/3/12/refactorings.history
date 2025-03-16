@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;controller.admin.management.teacher&apos; to &apos;controller.admin.management.teachers&apos;&#x0D;&#x0A;- Original project: &apos;DatabaseLab&apos;&#x0D;&#x0A;- Original element: &apos;DatabaseLab/src/controller.admin.management.teacher&apos;&#x0D;&#x0A;- Renamed element: &apos;DatabaseLab/src/controller.admin.management.teachers&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;controller.admin.management.teacher&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;controller.admin.management.teacher" name="controller.admin.management.teachers" qualified="false" references="true" stamp="1742099148258" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,127 @@
+package controller.admin.management.teachers;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import hash_password.HashPassword;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
+import model.person.TeacherDAO;
+import model.user.UserDAO;
+
+public class AddTeacherPopUpController {
+	@FXML
+	private TextField fullNameTF;
+	
+	@FXML
+	private DatePicker dobDP;
+	
+	@FXML
+	private RadioButton maleRB;
+	
+	@FXML
+	private RadioButton femaleRB;
+	
+	@FXML
+	private TextField phoneTF;
+	
+	@FXML
+	private TextField emailTF;
+	
+	@FXML
+	private TextField expertiseTF;
+	
+	@FXML
+	private TextField levelTF;
+	
+	@FXML
+	private TextField salaryTF;
+	
+	@FXML
+	private Button okButton;
+	
+	private ToggleGroup genderGroup = new ToggleGroup();
+	
+	private TeacherDAO teacherDAO = new TeacherDAO();
+	
+    private TeachersSceneController teachersSceneController;
+
+    public void setTeachersSceneController(TeachersSceneController teachersSceneController) {
+        this.teachersSceneController = teachersSceneController;
+    }
+	
+	public TeachersSceneController getTeachersSceneController() {
+		return teachersSceneController;
+	}
+
+	@FXML
+	private void initialize() {
+		maleRB.setToggleGroup(genderGroup);
+		femaleRB.setToggleGroup(genderGroup);
+	}
+	
+	@FXML
+	private void handleOk() {
+		String teacherid = teacherDAO.generateTeacherID();
+		String fullName = fullNameTF.getText();
+		
+		String dob = null;
+		if(dobDP.getValue() != null) {
+			dob = dobDP.getValue().toString();
+		}
+		
+		RadioButton selectedRadio = (RadioButton) genderGroup.getSelectedToggle();
+		String gender = null;
+		if(selectedRadio != null) {
+			gender = selectedRadio.getText();
+		}
+		
+		String phone = phoneTF.getText();
+		String email = emailTF.getText();
+		
+		String expertise = expertiseTF.getText();
+		String level = levelTF.getText();
+		int salary = Integer.parseInt(salaryTF.getText());
+		
+		if(fullName.isEmpty() || dob==null || gender==null || phone.isEmpty() || email.isEmpty() || expertise.isEmpty() || level.isEmpty() || salary==0) {
+			showErrorAlert("Error", "Not enough information has been entered!");
+		}else if (!phone.matches("\\d{10}")) {
+		    showErrorAlert("Error", "Phone number must have 10 digits!");
+		} else if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+		    showErrorAlert("Error", "Invalid email format!");
+		} else if (salary<0) {
+		    showErrorAlert("Error", "Can salary be negative?");
+		}else {
+			String teacherid = teacherDAO.generateTeacherID();
+			teacherDAO.insertTeacher(teacherid, fullName, dob, gender, phone, email, expertise, level, salary);
+			studentDAO.insertStudent(fullName, dob, gender, phone, email);
+			showCompletedAlert("Completed", "Registration successful!");
+	        
+		}
+	}
+	
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("ERROR");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    private void showCompletedAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText("Account Created Successfully!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+	
+}

@@ -20,6 +20,7 @@ module DatabaseLab {
     opens controller.admin.home to javafx.fxml;
     opens controller.admin.management to javafx.fxml;
     opens controller.admin.management.users to javafx.fxml;
+    opens controller.admin.management.teachers to javafx.fxml;
     opens controller.admin.schedule to javafx.fxml;
     opens app to javafx.fxml;
 }
