@@ -24,6 +24,8 @@ desc users;
 
 desc teachers;
 
+desc subjects;
+
 alter table teachers
 change column name FullName VARCHAR(50) NOT NULL; 
 
@@ -50,9 +52,37 @@ INSERT INTO users (userid, account, password, role, status, createddate) VALUES
 INSERT INTO users (account, password, email, phone, role, status) VALUES
 ('ptd', 'a', 'ptd@example.com', '0123456789', 'teacher', 0);
 
+INSERT INTO subjects (subjectid, name, mass, tuition) VALUES
+('ENG01', 'English IELTS 5.0 - 6.5', 50, 12500000);
+
+INSERT INTO rooms (roomid, address, type, status) VALUES
+('OFF00001', 'A2 - 301', 'offline', 'empty');
+
+delete from rooms
+where roomid = 'OFF00001';
+
+alter table rooms
+add column type enum('offline', 'online') not null;
+
+alter table rooms
+add column status enum('empty', 'using') not null;
+
+DROP TABLE rooms CASCADE;
+
+desc courses;
+
 select * from users;
 
 select * from students;
+
+select * from teachers;
+
+select * from subjects;
+
+desc rooms;
+
+insert into teachers (teacherid, fullname, dateofbirth, gender, phone, email, expertise, level, salary) values
+	('T000000001', 'Nguyen Van Giap', '1997-02-20', 'male', '0397123456', 'giaplinux@gmail.com', 'English IELTS', '8.0', '15000000');
 
 update users
 set role = 'admin'
@@ -69,7 +99,10 @@ WHERE studentid = 'S000000002';
 
 ALTER TABLE users ADD COLUMN CreatedDate datetime not null;
 
+ALTER TABLE rooms DROP COLUMN status;
+
+
 desc schedules;
 
 select * from users
-inner join students on users.UserID = students.StudentID and users.UserID = 'S000000001';
+inner join teachers on (users.UserID = teachers.teacherID) and (users.UserID = 'T000000001');

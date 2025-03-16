@@ -64,13 +64,13 @@ public class TeacherDAO {
         return teacherList;
     }
 	
-	public void insertTeacher(String teacherid, String fullName, String dateOfBirth, String gender, String phone, String email, String expertise, String level, int salary) {
+	public void insertTeacher(String fullName, String dateOfBirth, String gender, String phone, String email, String expertise, String level, int salary) {
 		String sql = "INSERT INTO teachers (teacherid, fullname, dateofbirth, gender, phone, email, expertise, level, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 	    try (Connection conn = DatabaseConnection.getConnection();
 		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-		        pstmt.setString(1, teacherid);
+		        pstmt.setString(1, generateTeacherID());
 		        pstmt.setString(2, fullName);
 		        pstmt.setString(3, dateOfBirth);
 		        pstmt.setString(4, gender);
@@ -93,7 +93,7 @@ public class TeacherDAO {
 	}
 	
 	public void updateTeacher(String teacherid, String fullName, String dateOfBirth, String gender, String phone, String email, String expertise, String level, int salary) {
-	    String sql = "UPDATE users SET fullname = ?, dateofbirth = ?, gender = ?, phone = ?, email = ?, expertise = ?, level = ?, salary = ? WHERE userid = ?";
+	    String sql = "UPDATE teachers SET fullName = ?, dateofbirth = ?, gender = ?, phone = ?, email = ?, expertise = ?, level = ?, salary = ? WHERE teacherid = ?";
 
 	    try (Connection conn = DatabaseConnection.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -120,5 +120,26 @@ public class TeacherDAO {
 	        e.printStackTrace();
 	    }
 	}	
+	
+	public void deleteTeacher(String teacherid) {
+	    String sql = "DELETE FROM teachers WHERE teacherid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, teacherid);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Delete successful!");
+	        } else {
+	            System.out.println("Error deleting Teacher! Teacher not found.");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 }

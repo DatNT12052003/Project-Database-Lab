@@ -1,0 +1,5 @@
+package controller.admin.management.students;
+
+public class DetailStudentPopUpController {
+
+}

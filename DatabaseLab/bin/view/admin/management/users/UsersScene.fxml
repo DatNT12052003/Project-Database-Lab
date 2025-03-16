@@ -53,6 +53,6 @@
             </Button>
          </children>
       </VBox>
-      <ComboBox fx:id="typeSearchCB" layoutX="450.0" layoutY="9.0" prefWidth="100.0" />
+      <ComboBox fx:id="typeSearchCB" layoutX="450.0" layoutY="9.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

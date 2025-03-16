@@ -117,8 +117,7 @@ public class RegisterController {
 		} else if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 		    showErrorAlert("Error", "Invalid email format!");
 		}else {
-			String studentid = studentDAO.generateStudentID();
-			userDAO.insertUser(studentid, account, HashPassword.hashSHA256(password), "student", formattedDateTime);
+			userDAO.insertUser(account, HashPassword.hashSHA256(password), "student", formattedDateTime);
 			studentDAO.insertStudent(fullName, dob, gender, phone, email);
 			showCompletedAlert("Completed", "Registration successful!");
 	        

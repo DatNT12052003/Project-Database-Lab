@@ -109,12 +109,16 @@ public class UserDAO {
         return String.format("T%09d", count);
     }
     
-	public void insertUser(String userid, String account, String password, String role, String createdDate) {
+	public void insertUser(String account, String password, String role, String createdDate) {
 		String sql = "INSERT INTO users (userid, account, password, role, status, createddate) VALUES (?, ?, ?, ?, 'active', ?)";
 		
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)){
-			pstmt.setString(1, userid);
+			if(role.toLowerCase().equals("student")) {
+				pstmt.setString(1, generateStudentID());
+			}else {
+				pstmt.setString(1, generateTeacherID());
+			}
 			pstmt.setString(2, account);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);

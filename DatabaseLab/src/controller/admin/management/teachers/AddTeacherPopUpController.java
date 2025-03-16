@@ -92,9 +92,8 @@ public class AddTeacherPopUpController {
 		} else if (salary<0) {
 		    showErrorAlert("Error", "Can salary be negative?");
 		}else {
-			String teacherid = teacherDAO.generateTeacherID();
-			teacherDAO.insertTeacher(teacherid, fullName, dob, gender, phone, email, expertise, level, salary);
-			String message = "Teacher ID: " + teacherid + "\n"
+			teacherDAO.insertTeacher(fullName, dob, gender, phone, email, expertise, level, salary);
+			String message = "Teacher ID: " + teacherDAO.generateTeacherID() + "\n"
 					+ "Full Name: " + fullName + "\n"
                     + "Date Of Birth: " + dob + "\n"
                     + "Gender: " + gender + "\n"

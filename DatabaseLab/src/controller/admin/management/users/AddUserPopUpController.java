@@ -49,15 +49,7 @@ public class AddUserPopUpController {
 		String account = accountTF.getText();
 		String password = passwordTF.getText();
 		String role = roleCB.getValue().toLowerCase();
-		
-		String userid = "";
-		
-		if(role.equals("teacher")) {
-			userid = userDAO.generateTeacherID();
-		} else {
-			userid = userDAO.generateStudentID();
-		}
-		
+
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
@@ -65,7 +57,7 @@ public class AddUserPopUpController {
 		if(account.isEmpty() || password.isEmpty()) {
 			showErrorAlert("Error", "Not enough information has been entered!");
 		} else {
-			userDAO.insertUser(userid, account, HashPassword.hashSHA256(password), role, formattedDateTime);
+			userDAO.insertUser(account, HashPassword.hashSHA256(password), role, formattedDateTime);
 			
 			String message = "Account: " + account + "\n"
 					+ "Password: " + password + "\n"

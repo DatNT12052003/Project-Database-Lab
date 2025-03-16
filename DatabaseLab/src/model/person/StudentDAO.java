@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection_database.DatabaseConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class StudentDAO {
 
@@ -32,12 +34,36 @@ public class StudentDAO {
         int count = getCountStudents() + 1; // Đếm số sinh viên hiện có rồi +1
         return String.format("S%09d", count); // Định dạng thành S000000001
     }
+    
+	public ObservableList<Student> getAllStudents() {
+        String sql = "SELECT * FROM students";
+        ObservableList<Student> studentList = FXCollections.observableArrayList();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Student student = new Student();
+                student.setStudentid(resultSet.getString("studentid"));  
+                student.setFullName(resultSet.getString("fullname")); 
+                student.setDateOfBirth(resultSet.getString("dateofbirth")); 
+                student.setGender(resultSet.getString("gender"));  
+                student.setPhone(resultSet.getString("phone"));  
+                student.setEmail(resultSet.getString("email"));  
+                
+                studentList.add(student); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentList;
+    }
 	
 	public void insertStudent(String fullName, String dateOfBirth, String gender, String phone, String email) {
 		String sql = "INSERT INTO students (studentid, fullname, dateofbirth, gender, phone, email) VALUES (?, ?, ?, ?, ?, ?)";
 		
-		
-	//	String studentid = generateStudentID();
 	    try (Connection conn = DatabaseConnection.getConnection();
 		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -58,5 +84,52 @@ public class StudentDAO {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		    }
+	}
+	
+	public void updateStudent(String studentid, String fullName, String dateOfBirth, String gender, String phone, String email) {
+	    String sql = "UPDATE students SET fullName = ?, dateofbirth = ?, gender = ?, phone = ?, email = ? WHERE studentid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, fullName);
+	        pstmt.setString(2, dateOfBirth);
+	        pstmt.setString(3, gender);
+	        pstmt.setString(4, phone);
+	        pstmt.setString(5, email);
+	        pstmt.setString(6, studentid);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Update successful!");
+	        } else {
+	            System.out.println("Error updating user!");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void deleteStudent(String studentid) {
+	    String sql = "DELETE FROM students WHERE studentid = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+
+	        int affectedRows = pstmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Delete successful!");
+	        } else {
+	            System.out.println("Error deleting Student! Student not found.");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 }

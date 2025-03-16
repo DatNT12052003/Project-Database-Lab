@@ -168,66 +168,53 @@ public class TeachersSceneController {
 	    }
 	}
 	
-//	@FXML
-//	private void handleDelete() {
-//	    User selectedUser = usersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
-//
-//	    if (selectedUser == null) {
-//	    	showErrorAlert("Error", "Please select a user to update!");
-//	        return;
-//	    }else if(selectedUser.getAccount().equals("admin")) {
-//	    	showErrorAlert("Error", "Can not delete ADMIN!");
-//	        return;
-//	    } else {
-//			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
-//			if (confirmed) {
-//			    userDAO.deleteUser(selectedUser.getUserid());
-//			}
-//	    }
-//	    
-//	    refreshUserList(); 
-//	}
+	@FXML
+	private void handleDelete() {
+	    Teacher selectedTeacher = teachersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
+
+	    if (selectedTeacher == null) {
+	    	showErrorAlert("Error", "Please select a user to update!");
+	        return;
+	    }else {
+			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
+			if (confirmed) {
+			    teacherDAO.deleteTeacher(selectedTeacher.getTeacherid());
+			}
+	    }
+	    
+	    refreshTeacherList(); 
+	}
 
 	
-//	@FXML
-//	private void handleDetail() {
-//	    User selectedUser = usersTable.getSelectionModel().getSelectedItem();
-//	    
-//	    if (selectedUser == null) {
-//	        showErrorAlert("Error", "Please select a user to update!");
-//	        return;
-//	    }
-//
-//	    try {
-//	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin/management/users/DetailUserPopUp.fxml"));
-//	        Parent root = loader.load();
-//
-//	        DetailUserPopUpController popUpController = loader.getController();
-//	        
-//	        // Lấy dữ liệu chi tiết dựa trên role
-//	        Student student = null;
-//	        Teacher teacher = null;
-//	        
-//	        if ("student".equals(selectedUser.getRole())) {
-//	            student = userJoinStudents(selectedUser.getUserid());
-//	        } else if ("teacher".equals(selectedUser.getRole())) {
-//	            teacher = userJoinTeachers(selectedUser.getUserid());
-//	        }
-//
-//	        popUpController.setData(selectedUser, teacher, student);
-//	        popUpController.setUsersSceneController(this);
-//
-//	        Stage stage = new Stage();
-//	        stage.setTitle("Detail User");
-//	        stage.setScene(new Scene(root));
-//	        stage.setResizable(false);
-//	        stage.initModality(Modality.APPLICATION_MODAL);
-//	        stage.showAndWait();
-//
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
+	@FXML
+	private void handleDetail() {
+	    Teacher selectedTeacher = teachersTable.getSelectionModel().getSelectedItem();
+	    
+	    if (selectedTeacher == null) {
+	        showErrorAlert("Error", "Please select a user to update!");
+	        return;
+	    }
+
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin/management/teachers/DetailTeacherPopUp.fxml"));
+	        Parent root = loader.load();
+
+	        DetailTeacherPopUpController popUpController = loader.getController();
+
+	        popUpController.setData(selectedTeacher);
+	        popUpController.setTeachersSceneController(this);
+
+	        Stage stage = new Stage();
+	        stage.setTitle("Detail Teacher");
+	        stage.setScene(new Scene(root));
+	        stage.setResizable(false);
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 	private void filterTeachers(String searchText) {
 	    if (searchText == null || searchText.isEmpty()) {

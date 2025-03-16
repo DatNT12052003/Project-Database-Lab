@@ -1,0 +1,5 @@
+package controller.admin.management.subjects;
+
+public class AddSubjectPopUpController {
+
+}

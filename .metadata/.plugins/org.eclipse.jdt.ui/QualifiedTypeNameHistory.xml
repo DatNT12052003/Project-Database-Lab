@@ -17,6 +17,6 @@
     <fullyQualifiedTypeName name="controller.admin.management.users.DetailUserPopUpController"/>
     <fullyQualifiedTypeName name="javafx.scene.control.PasswordField"/>
     <fullyQualifiedTypeName name="model.person.TeacherDAO"/>
-    <fullyQualifiedTypeName name="model.person.Teacher"/>
     <fullyQualifiedTypeName name="controller.admin.management.teachers.AddTeacherPopUpController"/>
+    <fullyQualifiedTypeName name="model.person.Teacher"/>
 </qualifiedTypeNameHistroy>

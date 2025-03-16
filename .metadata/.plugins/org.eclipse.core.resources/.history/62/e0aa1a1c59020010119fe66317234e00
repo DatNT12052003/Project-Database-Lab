@@ -1,0 +1,15 @@
+package controller.admin.management.teachers;
+
+public class DetailTeacherPopUpController {
+	
+    private TeachersSceneController teachersSceneController;
+
+    public void setTeachersSceneController(TeachersSceneController teachersSceneController) {
+        this.teachersSceneController = teachersSceneController;
+    }
+	
+	public TeachersSceneController getTeachersSceneController() {
+		return teachersSceneController;
+	}
+
+}
