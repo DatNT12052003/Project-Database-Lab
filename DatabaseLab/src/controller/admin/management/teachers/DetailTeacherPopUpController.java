@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.person.Teacher;
+import model.user.User;
 
 public class DetailTeacherPopUpController {
 	
@@ -19,6 +20,9 @@ public class DetailTeacherPopUpController {
 
 	@FXML
 	private Text genderText;
+	
+	@FXML
+	private Text addressText;
 
 	@FXML
 	private Text phoneText;
@@ -36,6 +40,9 @@ public class DetailTeacherPopUpController {
 	private Text salaryText;
 	
 	@FXML
+	private Text accountText;
+	
+	@FXML
 	private Button okButton;
 	
     private TeachersSceneController teachersSceneController;
@@ -49,17 +56,19 @@ public class DetailTeacherPopUpController {
 	}
 
 	
-	public void setData(Teacher teacher) {
+	public void setData(Teacher teacher, User user) {
 		
 		teacheridText.setText(teacher.getTeacherid());
 		fullNameText.setText(teacher.getFullName());
 		dobText.setText(teacher.getDateOfBirth());
 		genderText.setText(teacher.getGender());
+		addressText.setText(teacher.getAddress());
 		phoneText.setText(teacher.getPhone());
 		emailText.setText(teacher.getEmail());
 		expertiseText.setText(teacher.getExpertise());
 		levelText.setText(teacher.getLevel());
 		salaryText.setText(String.valueOf(teacher.getSalary()));
+		accountText.setText(user.getAccount());
 	}
 	
 	@FXML

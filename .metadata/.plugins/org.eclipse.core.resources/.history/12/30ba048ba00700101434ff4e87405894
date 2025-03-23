@@ -1,0 +1,232 @@
+package controller.admin.management.courses;
+
+import hash_password.HashPassword;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
+import model.schedule.Schedule;
+import model.schedule.ScheduleDAO;
+import model.subject.Subject;
+import model.subject.SubjectDAO;
+import model.course.Course;
+import model.person.Teacher;
+import model.person.TeacherDAO;
+import model.room.Room;
+import model.room.RoomDAO;
+import model.user.UserDAO;
+
+public class AddCoursePopUpController {
+	
+	@FXML
+	private ComboBox<Subject> subjectNameCB;
+	
+	@FXML
+	private ComboBox<Teacher> teacherCB;
+	
+	@FXML
+	private ComboBox<Room> roomCB;
+	
+	@FXML
+	private DatePicker ongoingDateDP;
+	
+	@FXML
+	private DatePicker openingDateDP;
+	
+	@FXML
+	private ComboBox<String> statusCB;
+	
+	@FXML
+	private ComboBox<Schedule> scheduleCB;
+	
+	@FXML
+	private TableView<Schedule> schedulesTable;
+	
+	@FXML
+	private TableColumn<Schedule, String> scheduleidColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> dayColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> timeStartColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> timeEndColumn;
+	
+	@FXML
+	private Button addButton;
+	
+	@FXML
+	private Button deleteButton;
+	
+	@FXML
+	private Button okButton;
+	
+	private UserDAO userDAO = new UserDAO();
+	
+    private CoursesSceneController coursesSceneController;
+
+    public void setCoursesSceneController(CoursesSceneController coursesSceneController) {
+        this.coursesSceneController = coursesSceneController;
+    }
+	
+	public CoursesSceneController getCoursesSceneController() {
+		return coursesSceneController;
+	}
+	
+	private SubjectDAO subjectDAO;
+	private ObservableList<Subject> subjectList = FXCollections.observableArrayList();
+	private TeacherDAO teacherDAO;
+	private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
+	private RoomDAO roomDAO;
+	private ObservableList<Room> roomList = FXCollections.observableArrayList();
+	private ScheduleDAO scheduleDAO;
+	private ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
+
+	@FXML
+	private void initialize() {
+		subjectDAO = new SubjectDAO();
+		teacherDAO = new TeacherDAO();
+		roomDAO = new RoomDAO();
+		scheduleDAO = new ScheduleDAO();
+		
+	    // Lấy danh sách từ database
+	    subjectList = subjectDAO.getAllSubjects();
+	    teacherList = teacherDAO.getAllTeachers();
+	    roomList = roomDAO.getAllRooms();
+	    scheduleList = scheduleDAO.getAllSchedules();
+
+	    // Đưa trực tiếp danh sách đối tượng vào ComboBox (JavaFX sẽ gọi toString() để hiển thị)
+	    subjectNameCB.setItems(subjectList);
+	    teacherCB.setItems(teacherList);
+	    roomCB.setItems(roomList);
+	    scheduleCB.setItems(scheduleList);
+
+	    // Trạng thái là danh sách cố định
+	    statusCB.setItems(FXCollections.observableArrayList("Ongoing", "Opening", "Canceled", "Completed"));
+	    
+	    subjectNameCB.setOnAction(e -> {
+            Subject selectedSubject = subjectNameCB.getValue();
+            teacherList = teacherDAO.getTeachersBySubject(subjectName(selectedSubject.getName()));
+            teacherCB.setItems(teacherList);
+        });
+
+	}
+
+	
+	@FXML
+	private void handleOk() {
+//		String fullName = fullNameTF.getText();
+//		String account = accountTF.getText();
+//		String password = passwordTF.getText();
+//		
+//		String dob = null;
+//		if(dobDP.getValue() != null) {
+//			dob = dobDP.getValue().toString();
+//		}
+//		
+//		RadioButton selectedRadio = (RadioButton) genderGroup.getSelectedToggle();
+//		String gender = null;
+//		if(selectedRadio != null) {
+//			gender = selectedRadio.getText();
+//		}
+//		
+//		String address = addressCB.getValue();
+//		
+//		String phone = phoneTF.getText();
+//		String email = emailTF.getText();
+//		
+//		String expertise = expertiseTF.getText();
+//		String level = levelTF.getText();
+//		int salary = 0;
+//		
+//		try {
+//		    salary = Integer.parseInt(salaryTF.getText());
+//		} catch (NumberFormatException e) {
+//			showErrorAlert("Error", "Salary must integer!");
+//			return;
+//		}
+//
+//		
+//		if(fullName.isEmpty() || account.isEmpty() || password.isEmpty() || dob==null || gender==null || address==null||phone.isEmpty() || email.isEmpty() || expertise.isEmpty() || level.isEmpty()) {
+//			showErrorAlert("Error", "Not enough information has been entered!");
+//		}else if (!phone.matches("\\d{10}")) {
+//		    showErrorAlert("Error", "Phone number must have 10 digits!");
+//		} else if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+//		    showErrorAlert("Error", "Invalid email format!");
+//		} else if (salary<0) {
+//		    showErrorAlert("Error", "Can salary be negative?");
+//		}else {
+//			userDAO.insertUser(teacherDAO.generateTeacherID(), account, HashPassword.hashSHA256(password), "Teacher");
+//			teacherDAO.insertTeacher(fullName, dob, gender, address, phone, email, expertise, level, salary);
+//			String message = "Teacher ID: " + teacherDAO.generateTeacherID() + "\n"
+//					+ "Full Name: " + fullName + "\n"
+//					+ "Account: " + account + "\n"
+//					+ "Password: " + password + "\n"
+//                    + "Date Of Birth: " + dob + "\n"
+//                    + "Gender: " + gender + "\n"
+//                    + "Address: " + address + "\n"
+//                    + "Phone: " + phone + "\n"
+//                    + "Email: " + email + "\n"
+//                    + "Expertise: " + expertise + "\n"
+//                    + "Level: " + level + "\n"
+//                    + "Salary: " + salary;
+//			
+//			showCompletedAlert("Success", message);
+//			
+//	        ((Stage) okButton.getScene().getWindow()).close();
+//	        
+//		}
+	}
+	
+	
+	
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("ERROR");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    private void showCompletedAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText("Teacher Created Successfully!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    private String subjectName(String name) {
+        String prefix = "";
+        
+        if(name.contains("English")) {
+        	prefix = "English";
+        }else if(name.contains("Japanese")) {
+        	prefix = "Japanese";
+        }else if(name.contains("Chinese")) {
+        	prefix = "Chinese";
+        }else if(name.contains("Korean")) {
+        	prefix = "Korean";
+        }else if(name.contains("Russian")) {
+        	prefix = "Russian";
+        }else if(name.contains("French")) {
+        	prefix = "French";
+        }else if(name.contains("German")) {
+        	prefix = "German";
+        }
+        
+        return prefix;
+    }
+	
+}

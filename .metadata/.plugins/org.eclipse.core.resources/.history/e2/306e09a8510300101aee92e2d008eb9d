@@ -1,0 +1,5 @@
+package controller.admin.schedules;
+
+public class ScheduleSceneController {
+
+}

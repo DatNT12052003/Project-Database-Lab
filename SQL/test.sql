@@ -34,6 +34,8 @@ change column name TeacherID VARCHAR(6) NOT NULL;
 
 desc students;
 
+select * from students;
+
 INSERT INTO users (account, password, email, phone, role, status) VALUES
 ('user001', 'pass12345', 'user001@example.com', '0901234567', 'admin', 1),
 ('user002', 'pass23456', 'user002@example.com', '0912345678', 'teacher', 1),
@@ -58,18 +60,32 @@ INSERT INTO subjects (subjectid, name, mass, tuition) VALUES
 INSERT INTO rooms (roomid, address, type, status) VALUES
 ('OFF00001', 'A2 - 301', 'offline', 'empty');
 
+select * from rooms;
+
+select * from schedules;
+
+desc rooms;
+
+INSERT INTO schedules (scheduleid, day, timestart, timeend) VALUES
+('MON03', 'Monday', '18', '19');
+
 delete from rooms
 where roomid = 'OFF00001';
 
 alter table rooms
-add column type enum('offline', 'online') not null;
+modify column type enum('Offline', 'Online') not null;
+alter table students
+modify column gender enum('Male', 'Female') not null;
 
 alter table rooms
-add column status enum('empty', 'using') not null;
+modify column status enum('Empty', 'Using') not null;
+
+alter table schedules
+modify column Day varchar(10) not null;
 
 DROP TABLE rooms CASCADE;
 
-desc courses;
+desc schedules;
 
 select * from users;
 
@@ -97,12 +113,34 @@ WHERE userid like 'S%';
 DELETE FROM students
 WHERE studentid = 'S000000002';
 
+update users
+set userid = 'S000000002'
+where userid = 'S000000003';
+
 ALTER TABLE users ADD COLUMN CreatedDate datetime not null;
 
 ALTER TABLE rooms DROP COLUMN status;
 
 
-desc schedules;
+desc subjects;
 
 select * from users
 inner join teachers on (users.UserID = teachers.teacherID) and (users.UserID = 'T000000001');
+
+desc teachers;
+
+drop table backups;
+
+desc courses;
+
+drop database projectdatabase;
+
+select * from courses;
+
+update courses set courseid = 'C00001' where courseid = 'CS0001';
+
+desc course_schedule;
+
+insert into course_schedule ()
+
+

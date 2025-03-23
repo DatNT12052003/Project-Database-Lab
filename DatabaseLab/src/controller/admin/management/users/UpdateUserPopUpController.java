@@ -1,8 +1,5 @@
 package controller.admin.management.users;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import hash_password.HashPassword;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.user.User;
 import model.user.UserDAO;
@@ -28,17 +24,11 @@ public class UpdateUserPopUpController {
 	}
 	
 	@FXML
-	private Text accountT;
-	
-	@FXML
 	private TextField accountTF;
 	
 	@FXML
 	private PasswordField passwordTF;
 	
-	
-	@FXML
-	private ComboBox<String> roleCB;
 	
 	@FXML
 	private Button okButton;
@@ -49,49 +39,32 @@ public class UpdateUserPopUpController {
 	
 	public void setUser(User user) {
 		this.user = user;
-		accountT.setText(user.getAccount());
-		if(user.getRole().equals("teacher")) {
-			roleCB.setValue("Teacher");
-		}else {
-			roleCB.setValue("Student");
-		}
+		accountTF.setText(user.getAccount());
+
 	}
 	
 	@FXML
 	private void initialize() {
-		roleCB.getItems().addAll("Teacher", "Student");
 	}
 	
 	@FXML
 	private void handleOk() {
 		String account = accountTF.getText();
 		String password = passwordTF.getText();
-		String role = roleCB.getValue().toLowerCase();
 		
-		String userid = "";
-		
-		if(role.equals(user.getRole())) {
-			userid = user.getUserid();
+		if(account.isEmpty()) {
+			showErrorAlert("Error", "Not Account has been entered!");
+		} else if(password.isEmpty()) {
+			userDAO.updateUser(user.getUserid(), account, user.getPassword());
+			String message = "Account: " + account + "\n";
+			showCompletedAlert("Update Success", message);
+			
+	        ((Stage) okButton.getScene().getWindow()).close();
 		} else {
-			if(role.equals("teacher")) {
-				userid = userDAO.generateTeacherID();
-			} else {
-				userid = userDAO.generateStudentID();
-			}
-		}
-		
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = now.format(formatter);
-		
-		if(account.isEmpty() || password.isEmpty()) {
-			showErrorAlert("Error", "Not enough information has been entered!");
-		} else {
-			userDAO.updateUser(userid, account, HashPassword.hashSHA256(password), role, "active", formattedDateTime);
+			userDAO.updateUser(user.getUserid(), account, HashPassword.hashSHA256(password));
 			String message = "Account: " + account + "\n"
-					+ "Password: " + password + "\n"
-                    + "Role: " + role + "\n";
-			showCompletedAlert("Success", message);
+					+ "Password: " + password + "\n";
+			showCompletedAlert("Update Success", message);
 			
 	        ((Stage) okButton.getScene().getWindow()).close();
 		}

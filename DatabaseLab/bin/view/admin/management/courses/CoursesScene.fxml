@@ -7,48 +7,65 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.admin.management.courses.CoursesSceneController">
    <children>
-      <Text layoutX="20.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" textAlignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <TextField layoutX="100.0" layoutY="9.0" prefWidth="300.0" />
-      <ChoiceBox layoutX="411.0" layoutY="9.0" prefWidth="100.0" />
-      <TableView layoutX="20.0" layoutY="46.0" prefHeight="500.0" prefWidth="650.0">
+      <TableView fx:id="coursesTable" layoutX="50.0" layoutY="70.0" prefHeight="600.0" prefWidth="1050.0">
         <columns>
-          <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Course ID" />
-          <TableColumn maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Subject Name" />
-            <TableColumn maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Max Students" />
-            <TableColumn maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Current Student" />
-            <TableColumn maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Opening Date" />
-            <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Type Corse" />
+          <TableColumn fx:id="courseidColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
+          <TableColumn fx:id="subjectNameColumn" maxWidth="240.0" minWidth="200.0" prefWidth="200.0" text="Subject Name" />
+            <TableColumn fx:id="teacherColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Teacher" />
+            <TableColumn fx:id="roomColumn" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" text="Room" />
+            <TableColumn fx:id="maxStudentsColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Max Students" />
+            <TableColumn fx:id="currentStudentsColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Current Student" />
+            <TableColumn fx:id="courseStartDateColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Course Start Date" />
+            <TableColumn fx:id="statusColumn" maxWidth="80.0" minWidth="80.0" text="Status" />
         </columns>
       </TableView>
-      <VBox layoutX="676.0" layoutY="46.0" prefHeight="500.0" prefWidth="100.0">
+      <VBox layoutX="1100.0" layoutY="70.0" prefHeight="600.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Add">
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddCourse" prefHeight="30.0" prefWidth="100.0" text="Add">
                <VBox.margin>
-                  <Insets top="50.0" />
+                  <Insets left="50.0" top="150.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Update">
+            <Button fx:id="updateButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Update">
                <VBox.margin>
-                  <Insets top="50.0" />
+                  <Insets left="50.0" top="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Delete">
+            <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Delete">
                <VBox.margin>
-                  <Insets top="50.0" />
+                  <Insets left="50.0" top="50.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Detail">
+            <Button fx:id="detailButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Detail">
                <VBox.margin>
-                  <Insets top="50.0" />
+                  <Insets left="50.0" top="50.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
+      <HBox prefHeight="50.0" prefWidth="1300.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="50.0" top="15.0" />
+               </HBox.margin>
+            </Text>
+            <TextField fx:id="searchTF" prefHeight="30.0" prefWidth="400.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <ComboBox fx:id="typeSearchCB" prefHeight="30.0" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </HBox.margin>
+            </ComboBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

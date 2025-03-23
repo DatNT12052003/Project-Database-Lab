@@ -173,7 +173,7 @@ public class SubjectsSceneController {
 	    }else {
 			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
 			if (confirmed) {
-			    subjectDAO.deleteSubject(selectedSubject.getSubjectid());
+			    subjectDAO.updateStatus(selectedSubject.getSubjectid(), "Deleted");
 			}
 	    }
 	    

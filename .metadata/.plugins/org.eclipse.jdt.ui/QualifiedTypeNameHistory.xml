@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="javafx.fxml.Initializable"/>
-    <fullyQualifiedTypeName name="model.person.StudentDAO"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ToggleGroup"/>
     <fullyQualifiedTypeName name="model.user.User"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="hash_password.HashPassword"/>
     <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
     <fullyQualifiedTypeName name="javafx.embed.swt.FXCanvas"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
@@ -13,10 +11,20 @@
     <fullyQualifiedTypeName name="controller.admin.management.users.UpdateUserPopUpController"/>
     <fullyQualifiedTypeName name="java.sql.SQLException"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
-    <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
     <fullyQualifiedTypeName name="controller.admin.management.users.DetailUserPopUpController"/>
     <fullyQualifiedTypeName name="javafx.scene.control.PasswordField"/>
-    <fullyQualifiedTypeName name="model.person.TeacherDAO"/>
     <fullyQualifiedTypeName name="controller.admin.management.teachers.AddTeacherPopUpController"/>
+    <fullyQualifiedTypeName name="controller.admin.management.schedules.DetailSchedulePopUpController"/>
+    <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
+    <fullyQualifiedTypeName name="model.person.StudentDAO"/>
+    <fullyQualifiedTypeName name="model.user.UserDAO"/>
+    <fullyQualifiedTypeName name="hash_password.HashPassword"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="model.subject.SubjectDAO"/>
+    <fullyQualifiedTypeName name="model.person.TeacherDAO"/>
+    <fullyQualifiedTypeName name="model.room.RoomDAO"/>
+    <fullyQualifiedTypeName name="model.schedule.ScheduleDAO"/>
     <fullyQualifiedTypeName name="model.person.Teacher"/>
+    <fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+    <fullyQualifiedTypeName name="model.schedule.Schedule"/>
 </qualifiedTypeNameHistroy>

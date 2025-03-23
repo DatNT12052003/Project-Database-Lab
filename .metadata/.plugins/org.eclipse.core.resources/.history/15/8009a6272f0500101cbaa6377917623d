@@ -1,0 +1,23 @@
+package model.other;
+
+public class Backup {
+	private String backupid;
+	
+	public Backup() {
+		super();
+	}
+	
+	public Backup(String backupid) {
+		super();
+		this.backupid = backupid;
+	}
+
+	public String getBackupid() {
+		return backupid;
+	}
+
+	public void setBackupid(String backupid) {
+		this.backupid = backupid;
+	}
+	
+}

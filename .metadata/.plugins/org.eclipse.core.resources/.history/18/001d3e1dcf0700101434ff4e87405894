@@ -1,0 +1,94 @@
+package model.course_schedule;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import connection_database.DatabaseConnection;
+
+public class CourseScheduleDAO {
+	private int getCountCourseSchedule() {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM courses_chedule";
+		
+		try(Connection conn = DatabaseConnection.getConnection();
+	             Statement stmt = conn.createStatement();
+	             ResultSet result = stmt.executeQuery(sql)){
+			
+			if (result.next()) {
+                count = result.getInt(1);
+            }
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+    
+    public List<String> getCourseScheduleid() {
+        String sql = "SELECT courseid FROM course_chedule";
+        List<String> idList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        		Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(sql)) {
+
+        	while(resultSet.next()) {
+        		idList.add(resultSet.getString(1));
+        	}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idList;
+    }
+    
+    public String generateCourseScheduleid() {
+        int count = 1;
+
+        List<String> idList = getCourseScheduleid();
+
+        while(count<=idList.size()) {
+    		String courseScheduleid = String.format("CS%08d", count);
+    		if(!idList.contains(courseScheduleid)) {
+    			return courseScheduleid;
+    		}
+    		count++;
+    	}
+        
+        count = getCountCourseSchedule() + 1;
+
+        return String.format("CS%08d", count);
+    }
+	
+	public void insertCourse(String roomid, String teacherid, String subjectid, String regisstartdate, String coursestartdate, String status) {
+		String sql = "INSERT INTO courses (courseid, roomid, teacherid, subjectid, currentstudents, regisstartdate, coursestartdate, status) VALUES (?, ?, ?, ?, 0, ?, ?, ?)";
+		
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, generateCourseid());
+		        pstmt.setString(2, roomid);
+		        pstmt.setString(3, teacherid);
+		        pstmt.setString(4, subjectid);
+		        pstmt.setString(5, regisstartdate);
+		        pstmt.setString(6, coursestartdate);
+		        pstmt.setString(7, status);
+		        
+		        int affectedRows = pstmt.executeUpdate();
+		        
+	            if (affectedRows > 0) {
+	                System.out.println("Insert completed!");
+	            } else {
+	                System.out.println("Error insert!");
+	            }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+	}
+}

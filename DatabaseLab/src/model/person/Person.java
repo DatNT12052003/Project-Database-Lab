@@ -4,19 +4,23 @@ public abstract class Person {
 	private String fullName;
 	private String dateOfBirth;
 	private String gender;
+	private String address;
 	private String phone;
 	private String email;
+	private String status;
 	
 	public Person() {
 		
 	}
 	
-	public Person(String fullName, String dateOfBirth, String gender, String phone, String email) {
+	public Person(String fullName, String dateOfBirth, String gender, String address,String phone, String email, String status) {
 		this.fullName = fullName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
+		this.address = address;
 		this.phone = phone;
 		this.email = email;
+		this.status = status;
 	}
 
 	public String getFullName() {
@@ -37,6 +41,13 @@ public abstract class Person {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getPhone() {
 		return phone;
 	}
@@ -49,12 +60,11 @@ public abstract class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Override
-	public String toString() {
-	    return "Full Name: " + fullName + ", Date of Birth: " + dateOfBirth + 
-	           ", Gender: " + gender + ", Phone: " + phone + ", Email: " + email;
+	public String getStatus() {
+		return status;
 	}
-
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 }

@@ -1,8 +1,5 @@
 package controller.admin.management.users;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import hash_password.HashPassword;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -48,16 +45,14 @@ public class AddUserPopUpController {
 	private void handleOk() {
 		String account = accountTF.getText();
 		String password = passwordTF.getText();
-		String role = roleCB.getValue().toLowerCase();
-
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = now.format(formatter);
+		String role = roleCB.getValue();
 		
 		if(account.isEmpty() || password.isEmpty()) {
 			showErrorAlert("Error", "Not enough information has been entered!");
-		} else {
-			userDAO.insertUser(account, HashPassword.hashSHA256(password), role, formattedDateTime);
+		} else if(userDAO.isUserExists(account)) {
+			showErrorAlert("Error", "Account already exists!");
+		}else {
+			//userDAO.insertUser(account, HashPassword.hashSHA256(password), role);
 			
 			String message = "Account: " + account + "\n"
 					+ "Password: " + password + "\n"

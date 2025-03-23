@@ -55,6 +55,9 @@ public class StudentsSceneController {
 	private TableColumn<Student, String> genderColumn;
 	
 	@FXML
+	private TableColumn<Student, String> addressColumn;
+	
+	@FXML
 	private TableColumn<Student, String> phoneColumn;
 	
 	@FXML
@@ -79,7 +82,7 @@ public class StudentsSceneController {
 	
 //	private TeacherDAO teacherDAO;
 	
-//	private User user;
+//	private UserDAO userDAO;
 //	
 //	private TeacherDAO teacherDAO;
 //	
@@ -102,6 +105,8 @@ public class StudentsSceneController {
 		dateOfBirthColumn.setStyle("-fx-alignment: CENTER;");
 		genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 		genderColumn.setStyle("-fx-alignment: CENTER;");
+		addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+		addressColumn.setStyle("-fx-alignment: CENTER;");
 		phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 		phoneColumn.setStyle("-fx-alignment: CENTER;");
 		emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -109,7 +114,7 @@ public class StudentsSceneController {
 		
 		studentsTable.setItems(studentList);
 		
-		typeSearchCB.getItems().addAll("Student ID", "Full Name", "Phone", "Email");
+		typeSearchCB.getItems().addAll("Student ID", "Full Name", "Address", "Phone", "Email");
 		typeSearchCB.setValue("Student ID");
 		
 		searchTF.textProperty().addListener((observable, oldValue, newValue) -> filterStudents(newValue));
@@ -192,10 +197,13 @@ public class StudentsSceneController {
 	@FXML
 	private void handleDetail() {
 	    Student selectedStudent = studentsTable.getSelectionModel().getSelectedItem();
+	    User userJoinStudent = new User();
 	    
 	    if (selectedStudent == null) {
 	        showErrorAlert("Error", "Please select a student to update!");
 	        return;
+	    } else {
+	    	userJoinStudent = studentDAO.studentsJoinUsers(selectedStudent.getStudentid());
 	    }
 
 	    try {
@@ -204,7 +212,7 @@ public class StudentsSceneController {
 
 	        DetailStudentPopUpController popUpController = loader.getController();
 
-	        popUpController.setData(selectedStudent);
+	        popUpController.setData(selectedStudent,  userJoinStudent);
 	        popUpController.setStudentsSceneController(this);
 
 	        Stage stage = new Stage();
@@ -235,6 +243,8 @@ public class StudentsSceneController {
 	        } else if (selectedType.equals("Full Name") && student.getFullName().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(student);
 	        } else if (selectedType.equals("Phone") && student.getPhone().toLowerCase().contains(searchText.toLowerCase())) {
+	            filteredList.add(student);
+	        } else if (selectedType.equals("Address") && student.getAddress().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(student);
 	        } else if (selectedType.equals("Email") && student.getEmail().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(student);

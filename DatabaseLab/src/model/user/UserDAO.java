@@ -9,11 +9,13 @@ import java.sql.Statement;
 import connection_database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.person.Student;
+import model.person.Teacher;
 
 public class UserDAO {
 	
 	public User getUserByAccount(String account) {
-	    String sql = "SELECT * FROM users WHERE account = ?";
+	    String sql = "SELECT account, password, role, status FROM users WHERE account = ?";
 	    User user = null;
 
 	    try (Connection conn = DatabaseConnection.getConnection();
@@ -62,67 +64,16 @@ public class UserDAO {
         }
         return userList;
     }
-	
-	private int getCountStudents() {
-		int count = 0;
-		String sql = "SELECT COUNT(*) FROM users WHERE userid LIKE 'S%'";
-		
-		try(Connection conn = DatabaseConnection.getConnection();
-	             Statement stmt = conn.createStatement();
-	             ResultSet result = stmt.executeQuery(sql)){
-			
-			if (result.next()) {
-                count = result.getInt(1);
-            }
-
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return count;
-	}
-	
-    public String generateStudentID() {
-        int count = getCountStudents() + 1; // Đếm số sinh viên hiện có rồi +1
-        return String.format("S%09d", count); // Định dạng thành S000000001
-    }
-	
-	private int getCountTeachers() {
-		int count = 0;
-		String sql = "SELECT COUNT(*) FROM users WHERE userid LIKE 'T%'";
-		
-		try(Connection conn = DatabaseConnection.getConnection();
-	             Statement stmt = conn.createStatement();
-	             ResultSet result = stmt.executeQuery(sql)){
-			
-			if (result.next()) {
-                count = result.getInt(1);
-            }
-
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return count;
-	}
-	
-    public String generateTeacherID() {
-        int count = getCountTeachers() + 1; 
-        return String.format("T%09d", count);
-    }
     
-	public void insertUser(String account, String password, String role, String createdDate) {
-		String sql = "INSERT INTO users (userid, account, password, role, status, createddate) VALUES (?, ?, ?, ?, 'active', ?)";
+	public void insertUser(String userid, String account, String password, String role) {
+		String sql = "INSERT INTO users (userid, account, password, role) VALUES (?, ?, ?, ?)";
 		
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)){
-			if(role.toLowerCase().equals("student")) {
-				pstmt.setString(1, generateStudentID());
-			}else {
-				pstmt.setString(1, generateTeacherID());
-			}
+			pstmt.setString(1, userid);
 			pstmt.setString(2, account);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);
-			pstmt.setString(5, createdDate);
 			
 			int affectedRows = pstmt.executeUpdate();
 			
@@ -137,25 +88,22 @@ public class UserDAO {
 		}
 	}
 	
-	public void updateUser(String userid, String account, String password, String role, String status, String createdDate) {
-	    String sql = "UPDATE users SET account = ?, password = ?, role = ?, status = ?, createdDate = ? WHERE userid = ?";
+	public void updateUser(String userid, String account, String password) {
+	    String sql = "UPDATE users SET account = ?, password = ? WHERE userid = ?";
 
 	    try (Connection conn = DatabaseConnection.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
 	        pstmt.setString(1, account);
 	        pstmt.setString(2, password);
-	        pstmt.setString(3, role);
-	        pstmt.setString(4, status);
-	        pstmt.setString(5, createdDate);
-	        pstmt.setString(6, userid);
+	        pstmt.setString(3, userid);
 
 	        int affectedRows = pstmt.executeUpdate();
 
 	        if (affectedRows > 0) {
 	            System.out.println("Update successful!");
 	        } else {
-	            System.out.println("Error updating user!");
+	            System.out.println("Error updating!");
 	        }
 
 	    } catch (SQLException e) {
@@ -177,7 +125,7 @@ public class UserDAO {
 	        if (affectedRows > 0) {
 	            System.out.println("Update successful!");
 	        } else {
-	            System.out.println("Error updating user!");
+	            System.out.println("Error updating!");
 	        }
 
 	    } catch (SQLException e) {
@@ -206,5 +154,105 @@ public class UserDAO {
 	    }
 	}
 
+    public String generateUserid(String role) {
+    	int count = 0;
+    	String r="";
+    	switch(role) {
+    	case "Student":
+    		r = "S";
+    		break;
+    	case "Teacher":
+    		r = "T";
+    		break;
+    	default:
+            throw new IllegalArgumentException("Invalid day: " + role);
+    	}
+    	
+    	String sql = "SELECT COUNT(*) FROM users WHERE userid LIKE ?";
+    	
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, r + "%"); 
+
+		        ResultSet result = pstmt.executeQuery();
+		        if (result.next()) {
+		            count = result.getInt(1);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    String userid = r + String.format("%09d", count + 1);
+    	
+    	return userid;
+    	
+    }
+    
+    public boolean isUserExists(String account) {
+        String query = "SELECT COUNT(*) FROM users WHERE account = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, account);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    
+    public Student usersJoinStudents(String userid) {
+        String sql = "SELECT s.studentid, s.fullname, s.dateofbirth, s.gender, s.address, s.phone, s.email FROM users INNER JOIN students AS s ON users.UserID = s.StudentID AND users.UserID = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userid);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                Student student = new Student();
+                student.setStudentid(resultSet.getString("studentid"));
+                student.setFullName(resultSet.getString("fullName"));
+                student.setDateOfBirth(resultSet.getString("dateofbirth"));
+                student.setGender(resultSet.getString("gender"));
+                student.setAddress(resultSet.getString("address"));
+                student.setPhone(resultSet.getString("phone"));
+                student.setEmail(resultSet.getString("email"));
+                return student;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Teacher usersJoinTeachers(String userid) {
+        String sql = "SELECT t.teacherid, t.fullname, t.dateofbirth, t.gender, t.address, t.phone, t.email FROM users INNER JOIN teachers AS t ON users.UserID = t.TeacherID AND users.UserID = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userid);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                Teacher teacher = new Teacher();
+                teacher.setTeacherid(resultSet.getString("teacherid"));
+                teacher.setFullName(resultSet.getString("fullName"));
+                teacher.setDateOfBirth(resultSet.getString("dateofbirth"));
+                teacher.setGender(resultSet.getString("gender"));
+                teacher.setAddress(resultSet.getString("address"));
+                teacher.setPhone(resultSet.getString("phone"));
+                teacher.setEmail(resultSet.getString("email"));
+                return teacher;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 	
 }

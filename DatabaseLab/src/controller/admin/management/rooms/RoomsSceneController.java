@@ -53,6 +53,9 @@ public class RoomsSceneController {
 	private TableColumn<Room, String> typeColumn;
 	
 	@FXML
+	private TableColumn<Room, Integer> maxStudentsColumn;
+	
+	@FXML
 	private TableColumn<Room, String> statusColumn;
 	
 	@FXML
@@ -93,6 +96,8 @@ public class RoomsSceneController {
 		addressColumn.setStyle("-fx-alignment: CENTER;");
 		typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 		typeColumn.setStyle("-fx-alignment: CENTER;");
+		maxStudentsColumn.setCellValueFactory(new PropertyValueFactory<>("maxStudents"));
+		maxStudentsColumn.setStyle("-fx-alignment: CENTER;");
 		statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 		statusColumn.setStyle("-fx-alignment: CENTER;");
 		
@@ -170,7 +175,7 @@ public class RoomsSceneController {
 	    }else {
 			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
 			if (confirmed) {
-			    roomDAO.deleteRoom(selectedRoom.getRoomid());
+			    roomDAO.updateStatus(selectedRoom.getRoomid(), "Deleted");
 			}
 	    }
 	    
@@ -219,7 +224,7 @@ public class RoomsSceneController {
 	    ObservableList<Room> filteredList = FXCollections.observableArrayList();
 
 	    for (Room room : roomList) {
-	        if (selectedType.equals("Teacher ID") && room.getRoomid().toLowerCase().contains(searchText.toLowerCase())) {
+	        if (selectedType.equals("Room ID") && room.getRoomid().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(room);
 	        } else if (selectedType.equals("Address") && room.getAddress().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(room);

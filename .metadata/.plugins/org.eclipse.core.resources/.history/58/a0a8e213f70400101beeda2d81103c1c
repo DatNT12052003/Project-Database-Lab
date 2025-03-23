@@ -1,0 +1,52 @@
+package model.other;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import connection_database.DatabaseConnection;
+
+public class BackupDAO {
+	
+    public String generateId(String stringLike) {
+    	Backup backup = new Backup();
+    	int count = 0;
+    	
+        String sql1 = "SELECT COUNT(*) FROM backups WHERE backupid LIKE ?";
+        String sql2 = "SELECT backupid FROM backups WHERE backupid LIKE ?";
+        
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql1)) {
+
+               pstmt.setString(1, stringLike + "%"); 
+
+               try (ResultSet resultSet = pstmt.executeQuery()) { 
+            	   count = resultSet.getInt(1);
+               }
+
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+        
+        if(count > 0) {
+            try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement pstmt = conn.prepareStatement(sql2)) {
+
+                   pstmt.setString(1, stringLike + "%");  // Thêm wildcard vào chuỗi tìm kiếm
+
+                   try (ResultSet resultSet = pstmt.executeQuery()) {  // Đảm bảo đóng ResultSet
+                	   if(resultSet.next()) {
+                		   backup.setBackupid(resultSet.getString(1));
+                	   }
+                   }
+
+               } catch (SQLException e) {
+                   e.printStackTrace();
+               }
+        }
+    	
+    	return id;
+    }
+}

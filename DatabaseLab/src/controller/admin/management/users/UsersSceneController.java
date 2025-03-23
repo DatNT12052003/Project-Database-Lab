@@ -26,7 +26,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.person.Student;
+import model.person.StudentDAO;
 import model.person.Teacher;
+import model.person.TeacherDAO;
 import model.user.User;
 import model.user.UserDAO;
 
@@ -61,28 +63,23 @@ public class UsersSceneController {
 	@FXML
 	private Button updateButton;
 	
-	@FXML
-	private Button deleteButton;
+//	@FXML
+//	private Button deleteButton;
 	
 	@FXML
 	private Button detailButton;
 	
 	@FXML
-	private Button ActiveOrLockedButton;
+	private Button ActiveOrLockButton;
 	
 	private ObservableList<User> userList = FXCollections.observableArrayList();
 	
 	private UserDAO userDAO;
 	
-//	private User user;
-//	
-//	private TeacherDAO teacherDAO;
-//	
-//	private Teacher teacher;
-//	
-//	private StudentDAO studentDAO;
-//	
-//	private Student student;
+	private TeacherDAO teacherDAO = new TeacherDAO();
+	
+	private StudentDAO studentDAO = new StudentDAO();
+
 	
 	@FXML
 	private void initialize() {
@@ -169,25 +166,30 @@ public class UsersSceneController {
 	    }
 	}
 	
-	@FXML
-	private void handleDelete() {
-	    User selectedUser = usersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
-
-	    if (selectedUser == null) {
-	    	showErrorAlert("Error", "Please select a user to update!");
-	        return;
-	    }else if(selectedUser.getAccount().equals("admin")) {
-	    	showErrorAlert("Error", "Can not delete ADMIN!");
-	        return;
-	    } else {
-			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
-			if (confirmed) {
-			    userDAO.deleteUser(selectedUser.getUserid());
-			}
-	    }
-	    
-	    refreshUserList(); 
-	}
+//	@FXML
+//	private void handleDelete() {
+//	    User selectedUser = usersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
+//
+//	    if (selectedUser == null) {
+//	    	showErrorAlert("Error", "Please select a user to update!");
+//	        return;
+//	    }else if(selectedUser.getAccount().equals("admin")) {
+//	    	showErrorAlert("Error", "Can not delete ADMIN!");
+//	        return;
+//	    } else {
+//			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to delete?");
+//			if (confirmed) {
+//			    userDAO.deleteUser(selectedUser.getUserid());
+//			    if(selectedUser.getRole().equals("Teacher")) {
+//					teacherDAO.updateStatus(selectedUser.getUserid(), "Deleted");
+//				}else {
+//					studentDAO.updateStatus(selectedUser.getUserid(), "Deleted");
+//				}
+//			}
+//	    }
+//	    
+//	    refreshUserList(); 
+//	}
 
 	
 	@FXML
@@ -209,10 +211,10 @@ public class UsersSceneController {
 	        Student student = null;
 	        Teacher teacher = null;
 	        
-	        if ("student".equals(selectedUser.getRole())) {
-	            student = userJoinStudents(selectedUser.getUserid());
-	        } else if ("teacher".equals(selectedUser.getRole())) {
-	            teacher = userJoinTeachers(selectedUser.getUserid());
+	        if ("Student".equals(selectedUser.getRole())) {
+	            student = userDAO.usersJoinStudents(selectedUser.getUserid());
+	        } else if ("Teacher".equals(selectedUser.getRole())) {
+	            teacher = userDAO.usersJoinTeachers(selectedUser.getUserid());
 	        }
 
 	        popUpController.setData(selectedUser, teacher, student);
@@ -231,9 +233,9 @@ public class UsersSceneController {
 	}
 	
 	@FXML
-	private void handleActiveOrLocked() {
-	    User selectedUser = usersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
-
+	private void handleActiveOrLock() {
+	    User selectedUser = usersTable.getSelectionModel().getSelectedItem();
+	    
 	    if (selectedUser == null) {
 	    	showErrorAlert("Error", "Please select a user to update!");
 	        return;
@@ -243,10 +245,16 @@ public class UsersSceneController {
 	    }else {
 			boolean confirmed = showConfirmation("Confirm", "Are you sure you want to active/locked?");
 			if (confirmed) {
-				if(selectedUser.getStatus().equals("active")) {
-					userDAO.updateStatusUser(selectedUser.getUserid(), "locked");
+				if(selectedUser.getStatus().equals("Active")) {
+					if(selectedUser.getUserid().contains("T")) {
+						Teacher selectedTeacher = userDAO.usersJoinTeachers(selectedUser.getUserid());
+						teacherDAO.updateStatus(selectedTeacher.getTeacherid(), "Deleted");
+					}else {
+						Student selectedStudent = userDAO.usersJoinStudents(selectedUser.getUserid());
+						studentDAO.updateStatus(selectedStudent.getStudentid(), "Deleted");
+					}
 				}else {
-					userDAO.updateStatusUser(selectedUser.getUserid(), "active");
+					userDAO.updateStatusUser(selectedUser.getUserid(), "Active");
 				}
 			}
 	    }
@@ -298,52 +306,6 @@ public class UsersSceneController {
         Optional<ButtonType> result = alert.showAndWait();
 
         return result.isPresent() && result.get() == ButtonType.YES;
-    }
-    
-    public Student userJoinStudents(String userid) {
-        String sql = "SELECT * FROM users INNER JOIN students ON users.UserID = students.StudentID WHERE users.UserID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, userid);
-            ResultSet resultSet = pstmt.executeQuery();
-
-            if (resultSet.next()) {
-                Student student = new Student();
-                student.setFullName(resultSet.getString("fullName"));
-                student.setDateOfBirth(resultSet.getString("dateofbirth"));
-                student.setGender(resultSet.getString("gender"));
-                student.setPhone(resultSet.getString("phone"));
-                student.setEmail(resultSet.getString("email"));
-                return student;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Teacher userJoinTeachers(String userid) {
-        String sql = "SELECT * FROM users INNER JOIN teachers ON users.UserID = teachers.TeacherID WHERE users.UserID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, userid);
-            ResultSet resultSet = pstmt.executeQuery();
-
-            if (resultSet.next()) {
-                Teacher teacher = new Teacher();
-                teacher.setFullName(resultSet.getString("fullName"));
-                teacher.setDateOfBirth(resultSet.getString("dateofbirth"));
-                teacher.setGender(resultSet.getString("gender"));
-                teacher.setPhone(resultSet.getString("phone"));
-                teacher.setEmail(resultSet.getString("email"));
-                return teacher;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

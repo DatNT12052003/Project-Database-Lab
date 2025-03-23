@@ -36,7 +36,8 @@ public class UpdateRoomPopUpController {
 	private ComboBox<String> typeCB;
 	
 	@FXML
-	private ComboBox<String> statusCB;
+	private TextField maxStudentsTF;
+	
 	
 	@FXML
 	private Button okButton;
@@ -48,50 +49,42 @@ public class UpdateRoomPopUpController {
 	public void setRoom(Room room) {
 		this.room = room;
 		addressTF.setText(room.getAddress());
-		if(room.getType().equals("offline")) {
+		if(room.getType().equals("Offline")) {
 			typeCB.setValue("Offline");
 		}else {
 			typeCB.setValue("Online");
 		}
-		if(room.getStatus().equals("empty")) {
-			statusCB.setValue("Empty");
-		}else {
-			statusCB.setValue("Using");
-		}
+		maxStudentsTF.setText(String.valueOf(room.getMaxStudents()));
 	}
 	
 	@FXML
 	private void initialize() {
 		typeCB.getItems().addAll("Offline", "Online");
-		statusCB.getItems().addAll("Empty", "Using");
 	}
 	
 	@FXML
 	private void handleOk() {
 		String address = addressTF.getText();
-		String type = typeCB.getValue().toLowerCase();
-		String status = statusCB.getValue().toLowerCase();
+		String type = typeCB.getValue();
+		System.out.println(type);
 		
-		String roomid = "";
+		int maxStudents = 0;
 		
-		if(type.equals(room.getType())) {
-			roomid = room.getRoomid();
-		} else {
-			if(type.equals("offline")) {
-				roomid = roomDAO.generateRoomidOff();
-			} else {
-				roomid = roomDAO.generateRoomidOnl();
-			}
+		try {
+			maxStudents = Integer.parseInt(maxStudentsTF.getText());
+		} catch (NumberFormatException e) {
+			showErrorAlert("Error", "Salary must integer!");
+			return;
 		}
+		
 		
 		if(address.isEmpty()) {
 			showErrorAlert("Error", "Not enough information has been entered!");
 		} else {
-			roomDAO.updateRoom(roomid, address, type, status);
-			String message = "Roomid: " + roomid + "\n"
-					+ "Address: " + address + "\n"
+			roomDAO.updateRoom(room.getRoomid(), address, type, maxStudents);
+			String message = "Address: " + address + "\n"
 					+ "Type: " + type + "\n"
-                    + "Status: " + status + "\n";
+					+ "Max Students: " + maxStudents + "\n";
 			showCompletedAlert("Success", message);
 			
 	        ((Stage) okButton.getScene().getWindow()).close();

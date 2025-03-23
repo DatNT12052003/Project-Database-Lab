@@ -22,6 +22,9 @@ public class AddRoomPopUpController {
 	private ComboBox<String> typeCB;
 	
 	@FXML
+	private TextField maxStudentsTF;
+	
+	@FXML
 	private Button okButton;
 	
 	private RoomDAO roomDAO = new RoomDAO();
@@ -45,15 +48,27 @@ public class AddRoomPopUpController {
 	@FXML
 	private void handleOk() {
 		String address = addressTF.getText();
-		String type = typeCB.getValue().toLowerCase();
+		String type = typeCB.getValue();
 		
-		if(address.isEmpty()) {
+		int maxStudents = 0;
+		
+		try {
+			maxStudents = Integer.parseInt(maxStudentsTF.getText());
+		} catch (NumberFormatException e) {
+			showErrorAlert("Error", "Salary must integer!");
+			return;
+		}
+		
+		if(address.isEmpty() || maxStudents == 0) {
 			showErrorAlert("Error", "Not enough information has been entered!");
-		} else {
-			roomDAO.insertRoom(address, type);
+		} else if(maxStudents<0) {
+			 showErrorAlert("Error", "Can max students be negative?");
+		}else {
+			roomDAO.insertRoom(address, type, maxStudents);
 			
 			String message = "Address: " + address + "\n"
-					+ "Type: " + type + "\n";
+					+ "Type: " + type + "\n"
+					+ "Max Students: " + maxStudents + "\n";
 			
 			showCompletedAlert("Success", message);
 			

@@ -38,9 +38,6 @@ public class UpdateSubjectPopUpController {
 	}
 	
 	@FXML
-	private TextField subjectidTF;
-	
-	@FXML
 	private TextField nameTF;
 	
 	@FXML
@@ -56,7 +53,6 @@ public class UpdateSubjectPopUpController {
 	
 	public void setSubject(Subject subject) {
 		this.subject = subject;
-		subjectidTF.setText(subject.getSubjectid());
 		nameTF.setText(subject.getName());
 		massTF.setText(String.valueOf(subject.getMass()));
 		tuitionTF.setText(String.valueOf(subject.getTuition()));
@@ -69,19 +65,17 @@ public class UpdateSubjectPopUpController {
 	
 	@FXML
 	private void handleOk() {
-		String subjectid = subjectidTF.getText();
 		String name = nameTF.getText();
 		int mass = Integer.parseInt(massTF.getText());
 		int tuition = Integer.parseInt(tuitionTF.getText());
 		
-		if(subjectid.isEmpty() || name.isEmpty() || mass==0 || tuition==0) {
+		if(name.isEmpty() || mass==0 || tuition==0) {
 			showErrorAlert("Error", "Not enough information has been entered!");
 		}else if (mass<0 || tuition<0) {
 		    showErrorAlert("Error", "Can mass or tuition be negative?");
 		}else {
-			subjectDAO.updateSubject(subject.getSubjectid(),subjectid, name, mass, tuition);
-			String message = "Subject ID: " + subjectid + "\n"
-					+ "Subject Name: " + name + "\n"
+			subjectDAO.updateSubject(subject.getSubjectid(), name, mass, tuition);
+			String message = "Subject Name: " + name + "\n"
                     + "Mass: " + mass + "\n"
                     + "Tuition: " + tuition + "\n";
 			

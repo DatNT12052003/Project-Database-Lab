@@ -4,17 +4,19 @@ public class Room {
 	private String roomid;
 	private String address;
 	private String type;
+	private int maxStudents;
 	private String status;
 	
 	public Room() {
 		super();
 	}
 
-	public Room(String roomid, String address, String type, String status) {
+	public Room(String roomid, String address, String type, int maxStudents, String status) {
 		super();
 		this.roomid = roomid;
 		this.address = address;
 		this.type = type;
+		this.maxStudents = maxStudents;
 		this.status = status;
 	}
 
@@ -42,6 +44,14 @@ public class Room {
 		this.type = type;
 	}
 
+	public int getMaxStudents() {
+		return maxStudents;
+	}
+
+	public void setMaxStudents(int maxStudents) {
+		this.maxStudents = maxStudents;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -49,5 +59,10 @@ public class Room {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+    @Override
+    public String toString() {
+        return getRoomid() + " - " + getAddress();
+    }
 	
 }

@@ -6,6 +6,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.person.Student;
 import model.person.Teacher;
+import model.user.User;
 
 public class DetailStudentPopUpController {
 	
@@ -14,18 +15,25 @@ public class DetailStudentPopUpController {
 	
 	@FXML
 	private Text fullNameText;
+	
 
 	@FXML
 	private Text dobText;
 
 	@FXML
 	private Text genderText;
+	
+	@FXML
+	private Text addressText;
 
 	@FXML
 	private Text phoneText;
 
 	@FXML
 	private Text emailText;
+	
+	@FXML
+	private Text accountText;
 	
 	@FXML
 	private Button okButton;
@@ -40,14 +48,17 @@ public class DetailStudentPopUpController {
 		return studentsSceneController;
 	}
 
-	public void setData(Student student) {
+	public void setData(Student student,  User user) {
 		
 		studentidText.setText(student.getStudentid());
 		fullNameText.setText(student.getFullName());
 		dobText.setText(student.getDateOfBirth());
 		genderText.setText(student.getGender());
+		addressText.setText(student.getAddress());
 		phoneText.setText(student.getPhone());
 		emailText.setText(student.getEmail());
+		accountText.setText(user.getAccount());
+		
 	}
 	
 	@FXML

@@ -12,8 +12,6 @@ import model.person.TeacherDAO;
 import model.subject.SubjectDAO;
 
 public class AddSubjectPopUpController {
-	@FXML
-	private TextField subjectidTF;
 	
 	@FXML
 	private TextField nameTF;
@@ -47,19 +45,17 @@ public class AddSubjectPopUpController {
 	
 	@FXML
 	private void handleOk() {
-		String subjectid = subjectidTF.getText();
 		String name = nameTF.getText();
 		int mass = Integer.parseInt(massTF.getText());
 		int tuition = Integer.parseInt(tuitionTF.getText());
 		
-		if(subjectid.isEmpty() || name.isEmpty() || mass==0 || tuition==0) {
+		if(name.isEmpty() || mass==0 || tuition==0) {
 			showErrorAlert("Error", "Not enough information has been entered!");
 		}else if (mass<0 || tuition<0) {
 		    showErrorAlert("Error", "Can mass or tuition be negative?");
 		}else {
-			subjectDAO.insertSubject(subjectid, name, mass, tuition);
-			String message = "Subject ID: " + subjectid + "\n"
-					+ "Subject Name: " + name + "\n"
+			subjectDAO.insertSubject(name, mass, tuition);
+			String message = "Subject Name: " + name + "\n"
                     + "Mass: " + mass + "\n"
                     + "Tuition: " + tuition + "\n";
 			

@@ -50,4 +50,9 @@ public class Subject {
 		this.tuition = tuition;
 	}
 	
+    @Override
+    public String toString() {
+        return getSubjectid() + " - " + getName();
+    }
+	
 }

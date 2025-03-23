@@ -35,6 +35,9 @@ public class DetailUserPopUpController {
 	private Text genderTF;
 	
 	@FXML
+	private Text addressTF;
+	
+	@FXML
 	private Text phoneTF;
 	
 	@FXML
@@ -61,22 +64,25 @@ public class DetailUserPopUpController {
 	    statusTF.setText(user.getStatus());
 	    createdDateTF.setText(user.getCreatedDate());
 
-	    if ("teacher".equals(user.getRole()) && teacher != null) {
+	    if ("Teacher".equals(user.getRole()) && teacher != null) {
 	        fullNameTF.setText(teacher.getFullName());
 	        dobTF.setText(teacher.getDateOfBirth());
 	        genderTF.setText(teacher.getGender());
+	        addressTF.setText(teacher.getAddress());
 	        phoneTF.setText(teacher.getPhone()); 
 	        emailTF.setText(teacher.getEmail());
-	    } else if ("student".equals(user.getRole()) && student != null) {
+	    } else if ("Student".equals(user.getRole()) && student != null) {
 	        fullNameTF.setText(student.getFullName());
 	        dobTF.setText(student.getDateOfBirth());
 	        genderTF.setText(student.getGender());
+	        addressTF.setText(student.getAddress());
 	        phoneTF.setText(student.getPhone()); 
 	        emailTF.setText(student.getEmail());
 	    } else {
 	        fullNameTF.setText("N/A");
 	        dobTF.setText("N/A");
 	        genderTF.setText("N/A");
+	        addressTF.setText("N/A");
 	        phoneTF.setText("N/A");
 	        emailTF.setText("N/A");
 	    }

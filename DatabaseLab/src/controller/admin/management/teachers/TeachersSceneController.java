@@ -51,6 +51,9 @@ public class TeachersSceneController {
 	private TableColumn<Teacher, String> dateOfBirthColumn;
 	
 	@FXML
+	private TableColumn<Teacher, String> addressColumn;
+	
+	@FXML
 	private TableColumn<Teacher, String> expertiseColumn;
 	
 	@FXML
@@ -97,6 +100,8 @@ public class TeachersSceneController {
 		fullNameColumn.setStyle("-fx-alignment: CENTER;");
 		dateOfBirthColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
 		dateOfBirthColumn.setStyle("-fx-alignment: CENTER;");
+		addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+		addressColumn.setStyle("-fx-alignment: CENTER;");
 		expertiseColumn.setCellValueFactory(new PropertyValueFactory<>("expertise"));
 		expertiseColumn.setStyle("-fx-alignment: CENTER;");
 		levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
@@ -106,7 +111,7 @@ public class TeachersSceneController {
 		
 		teachersTable.setItems(teacherList);
 		
-		typeSearchCB.getItems().addAll("Teacher ID", "Full Name", "Expertise", "Level", "Salary");
+		typeSearchCB.getItems().addAll("Teacher ID", "Full Name", "Address", "Expertise", "Level", "Salary");
 		typeSearchCB.setValue("Teacher ID");
 		
 		searchTF.textProperty().addListener((observable, oldValue, newValue) -> filterTeachers(newValue));
@@ -189,10 +194,13 @@ public class TeachersSceneController {
 	@FXML
 	private void handleDetail() {
 	    Teacher selectedTeacher = teachersTable.getSelectionModel().getSelectedItem();
+	    User userJoinTeacher = new User();
 	    
 	    if (selectedTeacher == null) {
 	        showErrorAlert("Error", "Please select a user to update!");
 	        return;
+	    }else {
+	    	userJoinTeacher =  teacherDAO.teachersJoinUsers(selectedTeacher.getTeacherid());
 	    }
 
 	    try {
@@ -201,8 +209,8 @@ public class TeachersSceneController {
 
 	        DetailTeacherPopUpController popUpController = loader.getController();
 
-	        popUpController.setData(selectedTeacher);
-	        popUpController.setTeachersSceneController(this);
+	        popUpController.setData(selectedTeacher, userJoinTeacher);
+	        popUpController.setTeachersSceneController(this); 
 
 	        Stage stage = new Stage();
 	        stage.setTitle("Detail Teacher");
@@ -230,6 +238,8 @@ public class TeachersSceneController {
 	        if (selectedType.equals("Teacher ID") && teacher.getTeacherid().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(teacher);
 	        } else if (selectedType.equals("Full Name") && teacher.getFullName().toLowerCase().contains(searchText.toLowerCase())) {
+	            filteredList.add(teacher);
+	        } else if (selectedType.equals("Address") && teacher.getAddress().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(teacher);
 	        } else if (selectedType.equals("Expertise") && teacher.getExpertise().toLowerCase().contains(searchText.toLowerCase())) {
 	            filteredList.add(teacher);
