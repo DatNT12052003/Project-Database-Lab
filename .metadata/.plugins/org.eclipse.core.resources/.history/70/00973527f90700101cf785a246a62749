@@ -1,0 +1,5 @@
+package controller.student.home;
+
+public class HomeSceneController {
+
+}

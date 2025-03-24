@@ -1,0 +1,110 @@
+package model.study;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import connection_database.DatabaseConnection;
+
+public class StudyDAO {
+	
+	private int getCountStudy() {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM studies";
+		
+		try(Connection conn = DatabaseConnection.getConnection();
+	             Statement stmt = conn.createStatement();
+	             ResultSet result = stmt.executeQuery(sql)){
+			
+			if (result.next()) {
+                count = result.getInt(1);
+            }
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+    
+    public List<String> getStudyid() {
+        String sql = "SELECT studyid FROM studies";
+        List<String> idList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        		Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(sql)) {
+
+        	while(resultSet.next()) {
+        		idList.add(resultSet.getString(1));
+        	}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idList;
+    }
+    
+    public String generateStudyid() {
+        int count = 1;
+
+        List<String> idList = getStudyid();
+
+        while(count<=idList.size()) {
+    		String studyid = String.format("SC%08d", count);
+    		if(!idList.contains(studyid)) {
+    			return studyid;
+    		}
+    		count++;
+    	}
+        
+        count = getCountStudy() + 1;
+
+        return String.format("SC%08d", count);
+    }
+	
+	public void insertStudy(String studentid, String courseid) {
+		String sql = "INSERT INTO studies (studyid, studentid, courseid) VALUES (?, ?, ?)";
+		
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, generateStudyid());
+		        pstmt.setString(2, studentid);
+		        pstmt.setString(3, courseid);
+		        
+		        int affectedRows = pstmt.executeUpdate();
+		        
+	            if (affectedRows > 0) {
+	                System.out.println("Insert completed!");
+	            } else {
+	                System.out.println("Error insert!");
+	            }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+	}
+	
+	public String getStudentidByCourseid(String courseid) {
+		String sql = "Select studentid from studies where courseid = ?";
+		try(Connection conn = DatabaseConnection.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)){
+			 pstmt.setString(1, courseid);
+			 
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	        	System.out.println(resultSet.next());
+	            if (resultSet.next()) {
+	                return resultSet.getString(1);
+	            }
+	        }
+			 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

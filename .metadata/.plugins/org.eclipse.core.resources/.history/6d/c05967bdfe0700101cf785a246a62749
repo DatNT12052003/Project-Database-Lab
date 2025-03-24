@@ -1,0 +1,31 @@
+package controller.student.courses;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
+public class CoursesSceneController {
+	
+	@FXML
+	private Button studyingButton;
+	
+	@FXML
+	private Button registeredButton;
+	
+	@FXML
+	private Button completedButton;
+	
+	@FXML
+	public void handleStudying() {
+		
+	}
+	
+	@FXML
+	public void handleRegistered() {
+		
+	}
+	
+	@FXML
+	public void handleCompleted() {
+		
+	}
+}

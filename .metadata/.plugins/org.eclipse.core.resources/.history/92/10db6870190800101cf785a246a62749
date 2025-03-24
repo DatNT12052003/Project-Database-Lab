@@ -1,0 +1,5 @@
+package model.user_login;
+
+public class UserLogin {
+
+}

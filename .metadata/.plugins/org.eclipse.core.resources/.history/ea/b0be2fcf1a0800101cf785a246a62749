@@ -1,0 +1,22 @@
+package controller.student.courses.all;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
+public class AllSceneController {
+	
+	@FXML
+	private TextField searchTF;
+	
+	@FXML
+	private ComboBox<String> typeSearchCB;
+	
+	@FXML
+	private Text prevPage;
+	
+	@FXML
+	private Text lastPage;
+
+}

@@ -15,7 +15,7 @@ import model.person.Teacher;
 public class UserDAO {
 	
 	public User getUserByAccount(String account) {
-	    String sql = "SELECT account, password, role, status FROM users WHERE account = ?";
+	    String sql = "SELECT * FROM users WHERE account = ?";
 	    User user = null;
 
 	    try (Connection conn = DatabaseConnection.getConnection();
@@ -26,6 +26,7 @@ public class UserDAO {
 
 	        if (resultSet.next()) {
 	            user = new User();
+	            user.setUserid(resultSet.getString("userid"));
 	            user.setAccount(resultSet.getString("account"));
 	            user.setPassword(resultSet.getString("password"));
 	            user.setRole(resultSet.getString("role"));

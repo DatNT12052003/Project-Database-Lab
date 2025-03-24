@@ -87,7 +87,7 @@ CREATE TABLE studies (
     StudentID VARCHAR(10) NOT NULL,
     CourseID VARCHAR(6) NOT NULL,
     RegistrationDate DATETIME NOT NULL,
-    TuitionPayment ENUM('Completed', 'Incomplete') NOT NULL,
+    TuitionPayment ENUM('Incomplete', 'Completed') NOT NULL DEFAULT 'Incomplete',
     Status ENUM('Studying', 'Completed', 'Registered', 'Canceled') NOT NULL DEFAULT 'Registered',
     FOREIGN KEY (StudentID) REFERENCES students(StudentID) ON UPDATE CASCADE,
     FOREIGN KEY (CourseID) REFERENCES courses(CourseID) ON UPDATE CASCADE

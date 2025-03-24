@@ -1,5 +1,79 @@
 package model.study;
 
-public class Study {
+import model.course.Course;
+import model.person.Student;
 
+public class Study {
+	private String studyid;
+	private String registrationDate;
+	private String tuitionPayment;
+	private String status;
+	
+	private Student student;
+	private Course course;
+	
+	public Study() {
+		super();
+	}
+
+	public Study(String studyid, String registrationDate, String tuitionPayment, String status, Student student,
+			Course course) {
+		super();
+		this.studyid = studyid;
+		this.registrationDate = registrationDate;
+		this.tuitionPayment = tuitionPayment;
+		this.status = status;
+		this.student = student;
+		this.course = course;
+	}
+
+	public String getStudyid() {
+		return studyid;
+	}
+
+	public void setStudyid(String studyid) {
+		this.studyid = studyid;
+	}
+
+	public String getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(String registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public String getTuitionPayment() {
+		return tuitionPayment;
+	}
+
+	public void setTuitionPayment(String tuitionPayment) {
+		this.tuitionPayment = tuitionPayment;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+	
+	
 }

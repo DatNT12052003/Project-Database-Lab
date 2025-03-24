@@ -445,4 +445,33 @@ public class ScheduleDAO {
     }
 
 	
+	public ObservableList<Schedule> getScheduleByCourseid(String courseid) {
+        String sql = "select s.* from schedules as s\r\n"
+        		+ "inner join course_schedule as cs on s.scheduleid = cs.scheduleid\r\n"
+        		+ "inner join courses as c on cs.courseid = c.courseid\r\n"
+        		+ "where c.courseid = ?";
+        ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, courseid);
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Schedule schedule = new Schedule();
+		                schedule.setScheduleid(resultSet.getString("scheduleid"));  
+		                schedule.setDay(resultSet.getString("day")); 
+		                schedule.setTimeStart(resultSet.getString("timestart"));
+		                schedule.setTimeEnd(resultSet.getString("timeend"));  
+		                
+		                scheduleList.add(schedule); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+        return scheduleList;
+    }
 }

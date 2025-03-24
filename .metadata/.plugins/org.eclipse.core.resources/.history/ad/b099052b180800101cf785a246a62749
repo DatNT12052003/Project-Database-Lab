@@ -1,0 +1,5 @@
+package controller.student.courses.all;
+
+public class AllSceneController {
+
+}

@@ -10,6 +10,11 @@ module DatabaseLab {
     exports controller.admin;
     exports controller.admin.home;
     exports controller.admin.management;
+    exports controller.student;
+    exports controller.student.home;
+    exports controller.student.courses;
+    exports controller.teacher;
+    exports controller.teacher.home;
     exports app; 
     
     opens model.user to javafx.base;
@@ -29,5 +34,15 @@ module DatabaseLab {
     opens controller.admin.management.rooms to javafx.fxml;
     opens controller.admin.management.schedules to javafx.fxml;
     opens controller.admin.management.courses to javafx.fxml;
+    
+    opens controller.student to javafx.fxml;
+    opens controller.student.home to javafx.fxml;
+    opens controller.student.courses to javafx.fxml;
+    opens controller.student.courses.all to javafx.fxml;
+    opens controller.student.courses.course_item to javafx.fxml;
+    
+    opens controller.teacher to javafx.fxml;
+    opens controller.teacher.home to javafx.fxml;
+    
     opens app to javafx.fxml;
 }

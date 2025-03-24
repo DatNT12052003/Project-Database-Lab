@@ -1,0 +1,5 @@
+package controller.student.courses.course_item;
+
+public class CourseItem {
+
+}

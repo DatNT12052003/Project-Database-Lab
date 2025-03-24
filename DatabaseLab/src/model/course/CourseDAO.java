@@ -17,6 +17,7 @@ import model.person.Teacher;
 import model.person.TeacherDAO;
 import model.room.Room;
 import model.room.RoomDAO;
+import model.schedule.Schedule;
 import model.subject.SubjectDAO;
 import model.user.User;
 
@@ -109,6 +110,38 @@ public class CourseDAO {
 
         return String.format("C%05d", count);
     }
+    
+	public ObservableList<Course> getAllCoursesRegistration() {
+        String sql = "SELECT * FROM courses WHERE status = 'Registration'";
+        ObservableList<Course> courseList = FXCollections.observableArrayList();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Course course = new Course();
+                TeacherDAO teacherDAO = new TeacherDAO();
+                SubjectDAO subjectDAO = new SubjectDAO();
+                RoomDAO roomDAO = new RoomDAO();
+
+                course.setCourseid(resultSet.getString("courseid"));
+                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+                course.setStatus(resultSet.getString("status"));
+                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+                
+                courseList.add(course); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courseList;
+    }
 	
 	public void insertCourse(String roomid, String teacherid, String subjectid, String regisstartdate, String coursestartdate, String status) {
 		String sql = "INSERT INTO courses (courseid, roomid, teacherid, subjectid, currentstudents, regisstartdate, coursestartdate, status) VALUES (?, ?, ?, ?, 0, ?, ?, ?)";
@@ -136,5 +169,37 @@ public class CourseDAO {
 		    }
 	}
 	
+	public Course getCourseById(String courseid) {
+    	String sql = "SELECT * FROM courses WHERE courseid = ?";
+    	Course course = new Course();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, courseid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	        	if(resultSet.next()) {
+	                TeacherDAO teacherDAO = new TeacherDAO();
+	                SubjectDAO subjectDAO = new SubjectDAO();
+	                RoomDAO roomDAO = new RoomDAO();
+
+	                course.setCourseid(resultSet.getString("courseid"));
+	                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+	                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+	                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+	                course.setStatus(resultSet.getString("status"));
+	                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+	                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+	                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+	        	}
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return course;  
+	}
 	
 }

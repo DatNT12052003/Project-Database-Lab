@@ -1,0 +1,131 @@
+package controller.student.courses.course_item;
+
+import controller.admin.management.schedules.SchedulesSceneController;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
+import model.course.Course;
+import model.course.CourseDAO;
+import model.person.Student;
+import model.person.TeacherDAO;
+import model.room.RoomDAO;
+import model.schedule.Schedule;
+import model.subject.SubjectDAO;
+
+public class DetailCoursePopUpController {
+	
+	private Course courseItem;
+	
+	@FXML
+	private Text courseidText;
+	
+	@FXML
+	private Text subjectNameText;
+	
+	@FXML
+	private Text massText;
+	
+	@FXML
+	private Text tuitionText;
+	
+	@FXML
+	private Text teacherNameText;
+	
+	@FXML
+	private Text levelText;
+	
+	@FXML
+	private Text phoneText;
+	
+	@FXML
+	private Text emailText;
+	
+	@FXML
+	private Text teacherAddressText;
+	
+	@FXML
+	private Text currentStudentsText;
+	
+	@FXML
+	private Text maxStudentsText;
+	
+	@FXML
+	private Text startDateText;
+	
+	@FXML
+	private Text roomAddressText;
+	
+	@FXML
+	private Text typeText;
+	
+	
+	@FXML
+	private TableView<Schedule> schedulesTable;
+	
+	@FXML
+	private TableColumn<Schedule, String> dayColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> timeStartColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> timeEndColumn;
+	
+	
+	@FXML
+	private TableView<Student> studentsRegisterdTable;
+	
+	@FXML
+	private TableColumn<Schedule, String> scheduleidColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> fullNameColumn;
+	
+	@FXML
+	private TableColumn<Schedule, String> addressColumn;
+	
+	@FXML
+	private Button registerButton;
+	
+	private CourseDAO courseDAO = new CourseDAO();
+	
+	private TeacherDAO teacherDAO = new TeacherDAO();
+	
+	private SubjectDAO subjectDAO = new SubjectDAO();
+	
+	private RoomDAO roomDAO = new RoomDAO();
+	
+    private CourseItemController courseItemController;
+
+    public void setCourseItemController(CourseItemController courseItemController) {
+        this.courseItemController = courseItemController;
+    }
+	
+	public CourseItemController getCourseItemController() {
+		return courseItemController;
+	}
+	
+	
+	public void setData(Course courseItem) {
+		this.courseItem = courseItem;
+		
+		courseidText.setText(courseItem.getCourseid());
+		subjectNameText.setText(subjectDAO.getSubjectById(courseItem.getSubject().getSubjectid()).getName());
+		teacherNameText.setText(teacherDAO.getTeacherById(courseItem.getTeacher().getTeacherid()).getFullName());
+		currentStudentsText.setText(String.valueOf(courseItem.getCurrentStudents()));
+		maxStudentsText.setText(String.valueOf(roomDAO.getRoomById(courseItem.getRoom().getRoomid()).getMaxStudents()));
+		startDateText.setText(courseItem.getCourseStartDate());
+	}
+	
+	@FXML
+	private void initialize() {
+		
+	}
+	
+	@FXML
+	private void handleRegister() {
+		
+	}
+}

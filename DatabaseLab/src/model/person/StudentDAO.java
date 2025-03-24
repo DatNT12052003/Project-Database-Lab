@@ -216,5 +216,36 @@ public class StudentDAO {
       count = getCountStudents() + 1; // Đếm số sinh viên hiện có rồi +1
       return String.format("S%09d", count); // Định dạng thành S000000001
     }
+    
+	public ObservableList<Student> getAllStudentByCourseid(String courseid) {
+        String sql = "select s.* from students as s where studentid in (select studentid from studies where courseid = ?)";
+        ObservableList<Student> studentList = FXCollections.observableArrayList();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+        	pstmt.setString(1, courseid);
+        	
+        	ResultSet resultSet = pstmt.executeQuery();
+        	
+            while (resultSet.next()) {
+                Student student = new Student();
+                student.setStudentid(resultSet.getString("studentid"));  
+                student.setFullName(resultSet.getString("fullname")); 
+                student.setDateOfBirth(resultSet.getString("dateofbirth")); 
+                student.setGender(resultSet.getString("gender"));
+                student.setAddress(resultSet.getString("address"));
+                student.setPhone(resultSet.getString("phone"));  
+                student.setEmail(resultSet.getString("email"));  
+                student.setStatus(resultSet.getString("status"));
+                
+                studentList.add(student); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentList;
+    }
 	
 }

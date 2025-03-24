@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.user.User;
 import model.user.UserDAO;
+import model.user_login.UserLogin;
+
 import java.io.IOException;
 
 import hash_password.HashPassword;
@@ -43,11 +45,19 @@ public class LoginController {
             showAlert("Lỗi", "Tài khoản không tồn tại!");
         } else if (!HashPassword.checkPassword(password, user.getPassword())) {
             showAlert("Lỗi", "Sai mật khẩu!");
-        } else if(user.getStatus().equals("locked")) {
+        } else if(user.getStatus().equals("Locked")) {
         	showAlert("Lỗi", "Tài khoản này đã bị khóa!");
-        } else {
-            openMainView();
-        }
+        } else if(user.getRole().equals("Admin")) {
+        	UserLogin.setUserid(user.getUserid());
+        	openAdminView();
+        } else if(user.getRole().equals("Teacher")) {
+        	UserLogin.setUserid(user.getUserid());
+        	openTeacherView();
+        } else if(user.getRole().equals("Student")) {
+        	UserLogin.setUserid(user.getUserid());
+        	openStudentView();
+        } 
+    	System.out.println(user.getUserid());
     }
     
     @FXML
@@ -64,9 +74,35 @@ public class LoginController {
         }
     }
 
-    private void openMainView() {
+    private void openAdminView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin/AdminView.fxml"));
+            Stage stage = (Stage) logInButton.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Admin View");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể mở giao diện chính!");
+        }
+    }
+    
+    private void openTeacherView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/teacher/TeacherView.fxml"));
+            Stage stage = (Stage) logInButton.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Admin View");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể mở giao diện chính!");
+        }
+    }
+    
+    private void openStudentView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/student/StudentView.fxml"));
             Stage stage = (Stage) logInButton.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Admin View");
