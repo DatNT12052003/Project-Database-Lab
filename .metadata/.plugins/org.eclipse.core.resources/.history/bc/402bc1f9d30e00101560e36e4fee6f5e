@@ -1,0 +1,193 @@
+package model.study;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import connection_database.DatabaseConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.course.CourseDAO;
+import model.person.StudentDAO;
+import model.person.Teacher;
+
+public class StudyDAO {
+	
+	private int getCountStudy() {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM studies";
+		
+		try(Connection conn = DatabaseConnection.getConnection();
+	             Statement stmt = conn.createStatement();
+	             ResultSet result = stmt.executeQuery(sql)){
+			
+			if (result.next()) {
+                count = result.getInt(1);
+            }
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+    
+    public List<String> getStudyid() {
+        String sql = "SELECT studyid FROM studies";
+        List<String> idList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        		Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(sql)) {
+
+        	while(resultSet.next()) {
+        		idList.add(resultSet.getString(1));
+        	}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idList;
+    }
+    
+    public String generateStudyid() {
+        int count = 1;
+
+        List<String> idList = getStudyid();
+
+        while(count<=idList.size()) {
+    		String studyid = String.format("SC%08d", count);
+    		if(!idList.contains(studyid)) {
+    			return studyid;
+    		}
+    		count++;
+    	}
+        
+        count = getCountStudy() + 1;
+
+        return String.format("SC%08d", count);
+    }
+	
+	public void insertStudy(String studentid, String courseid) {
+		String sql = "INSERT INTO studies (studyid, studentid, courseid) VALUES (?, ?, ?)";
+		
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, generateStudyid());
+		        pstmt.setString(2, studentid);
+		        pstmt.setString(3, courseid);
+		        
+		        int affectedRows = pstmt.executeUpdate();
+		        
+	            if (affectedRows > 0) {
+	                System.out.println("Insert completed!");
+	            } else {
+	                System.out.println("Error insert!");
+	            }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+	}
+	
+	public boolean checkStudentRegisterdCourse(String studentid, String courseid) {
+		String sql = "SELECT * FROM studies WHERE studentid = ? AND courseid = ?";
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+	        pstmt.setString(2, courseid);
+	        ResultSet resultSet = pstmt.executeQuery();
+
+	        if (resultSet.next()) {
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return true;
+	}
+	
+	public String getStatusByStudentidAndCourseid(String studentid, String courseid) {
+		String sql = "SELECT status FROM studies WHERE studentid = ? AND courseid = ?";
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+	        pstmt.setString(2, courseid);
+	        ResultSet resultSet = pstmt.executeQuery();
+
+	        if (resultSet.next()) {
+	            return resultSet.getString(1);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
+	public Study getStudyByStudentidAndCourseid(String studentid, String courseid) {
+		String sql = "SELECT * FROM studies WHERE studentid = ? AND courseid = ?";
+		
+        Study study = new Study();
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+	        pstmt.setString(2, courseid);
+	        ResultSet resultSet = pstmt.executeQuery();
+	        
+	        StudentDAO  studentDAO = new StudentDAO();
+	        CourseDAO courseDAO = new CourseDAO();
+
+	        if (resultSet.next()) {
+	        	study.setStudyid(resultSet.getString("studyid"));
+	        	study.setStudent(studentDAO.getStudentById(resultSet.getString("studentid")));
+	        	study.setCourse(courseDAO.getCourseById(resultSet.getString("courseid")));
+	        	study.setRegistrationDate(resultSet.getString("registrationDate"));
+	        	study.setTuitionPayment(resultSet.getString("tuitionPayment"));
+	        	study.setNumberOfAbsences(resultSet.getInt("numberOfAbsences"));
+	        	study.setStatus(resultSet.getString("status"));
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return study;
+	}
+	
+	public ObservableList<Study> getAllStudyByCourseid(String courseid){
+        String sql = "SELECT * FROM teachers WHERE status = 'Teaching'";
+        ObservableList<Study> studyList = FXCollections.observableArrayList();
+        StudentDAO  studentDAO = new StudentDAO();
+        CourseDAO courseDAO = new CourseDAO();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Study study = new Study();
+	        	study.setStudyid(resultSet.getString("studyid"));
+	        	study.setStudent(studentDAO.getStudentById(resultSet.getString("studentid")));
+	        	study.setCourse(courseDAO.getCourseById(resultSet.getString("courseid")));
+	        	study.setRegistrationDate(resultSet.getString("registrationDate"));
+	        	study.setTuitionPayment(resultSet.getString("tuitionPayment"));
+	        	study.setNumberOfAbsences(resultSet.getInt("numberOfAbsences"));
+	        	study.setStatus(resultSet.getString("status"));
+	        	
+                studyList.add(study); 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studyList;
+	}
+}

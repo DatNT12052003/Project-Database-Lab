@@ -161,37 +161,37 @@ public class CoursesSceneController {
 		        e.printStackTrace();
 		    }
 	}
-//	
-//	@FXML
-//	private void handleUpdateTeacher() {
-//	    Teacher selectedTeacher = teachersTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
-//
-//	    if (selectedTeacher == null) {
-//	    	showErrorAlert("Error", "Please select a teacher to update!");
-//	        return;
-//	    }
-//
-//	    try {
-//	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin/management/teachers/UpdateTeacherPopUp.fxml"));
-//	        Parent root = loader.load();
-//
-//	        UpdateTeacherPopUpController popUpController = loader.getController();
-//	        popUpController.setTeacher(selectedTeacher); // Truyền dữ liệu user sang cửa sổ cập nhật
-//	        popUpController.setTeachersSceneController(this); // Thiết lập lại controller chính
-//
-//	        Stage stage = new Stage();
-//	        stage.setTitle("Update Teacher");
-//	        stage.setScene(new Scene(root));
-//	        stage.setResizable(false);
-//	        stage.initModality(Modality.APPLICATION_MODAL);
-//	        stage.showAndWait();
-//
-//	        refreshTeacherList(); // Làm mới danh sách sau khi cập nhật
-//
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
+	
+	@FXML
+	private void handleUpdateCourse() {
+	    Course selectedCourse = coursesTable.getSelectionModel().getSelectedItem(); // Lấy user được chọn
+
+	    if (selectedCourse == null) {
+	    	showErrorAlert("Error", "Please select a teacher to update!");
+	        return;
+	    }
+
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin/management/courses/UpdateCoursePopUp.fxml"));
+	        Parent root = loader.load();
+
+	        UpdateCoursePopUpController popUpController = loader.getController();
+	        popUpController.setCourse(selectedCourse); // Truyền dữ liệu user sang cửa sổ cập nhật
+	        popUpController.setCoursesSceneController(this); // Thiết lập lại controller chính
+
+	        Stage stage = new Stage();
+	        stage.setTitle("Update Course");
+	        stage.setScene(new Scene(root));
+	        stage.setResizable(false);
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.showAndWait();
+
+	        refreshCourseList(); // Làm mới danh sách sau khi cập nhật
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 //	
 //	@FXML
 //	private void handleDelete() {

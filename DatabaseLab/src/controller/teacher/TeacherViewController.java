@@ -18,7 +18,7 @@ public class TeacherViewController {
 	private Button homeButton;
 	
 	@FXML
-	private Button managementButton;
+	private Button coursesButton;
 	
 	@FXML
 	private Button scheduleButton;
@@ -41,8 +41,8 @@ public class TeacherViewController {
 	}
 	
 	@FXML
-	private void handleOpenManagement() throws Exception {
-    	Pane scene = FXMLLoader.load(getClass().getResource("/view/admin/management/ManagementScene.fxml"));
+	private void handleOpenCourses() throws Exception {
+    	Pane scene = FXMLLoader.load(getClass().getResource("/view/teacher/courses/CoursesScene.fxml"));
     	mainScene.getChildren().setAll(scene);
 	}
 	

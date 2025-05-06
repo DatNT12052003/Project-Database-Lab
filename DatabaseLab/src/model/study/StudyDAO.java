@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection_database.DatabaseConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.course.CourseDAO;
+import model.person.StudentDAO;
+import model.person.Teacher;
 
 public class StudyDAO {
 	
@@ -106,5 +111,90 @@ public class StudyDAO {
 	        e.printStackTrace();
 	    }
 	    return true;
+	}
+	
+	public String getStatusByStudentidAndCourseid(String studentid, String courseid) {
+		String sql = "SELECT status FROM studies WHERE studentid = ? AND courseid = ?";
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+	        pstmt.setString(2, courseid);
+	        ResultSet resultSet = pstmt.executeQuery();
+
+	        if (resultSet.next()) {
+	            return resultSet.getString(1);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
+	public Study getStudyByStudentidAndCourseid(String studentid, String courseid) {
+		String sql = "SELECT * FROM studies WHERE studentid = ? AND courseid = ?";
+		
+        Study study = new Study();
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, studentid);
+	        pstmt.setString(2, courseid);
+	        ResultSet resultSet = pstmt.executeQuery();
+	        
+	        StudentDAO  studentDAO = new StudentDAO();
+	        CourseDAO courseDAO = new CourseDAO();
+
+	        if (resultSet.next()) {
+	        	study.setStudyid(resultSet.getString("studyid"));
+	        	study.setStudent(studentDAO.getStudentById(resultSet.getString("studentid")));
+	        	study.setCourse(courseDAO.getCourseById(resultSet.getString("courseid")));
+	        	study.setRegistrationDate(resultSet.getString("registrationDate"));
+	        	study.setTuitionPayment(resultSet.getString("tuitionPayment"));
+	        	study.setNumberOfAbsences(resultSet.getInt("numberOfAbsences"));
+	        	study.setStatus(resultSet.getString("status"));
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return study;
+	}
+	
+    public ObservableList<Study> getAllStudyByCourseid(String courseid) {
+    	String sql = "SELECT * FROM studies WHERE courseid = ? ";
+	    
+        ObservableList<Study> studyList = FXCollections.observableArrayList();
+        
+        StudentDAO  studentDAO = new StudentDAO();
+        CourseDAO courseDAO = new CourseDAO();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, courseid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	            while (resultSet.next()) {
+	                Study study = new Study();
+		        	study.setStudyid(resultSet.getString("studyid"));
+		        	study.setStudent(studentDAO.getStudentById(resultSet.getString("studentid")));
+		        	study.setCourse(courseDAO.getCourseById(resultSet.getString("courseid")));
+		        	study.setRegistrationDate(resultSet.getString("registrationDate"));
+		        	study.setTuitionPayment(resultSet.getString("tuitionPayment"));
+		        	study.setNumberOfAbsences(resultSet.getInt("numberOfAbsences"));
+		        	study.setAverageScore(resultSet.getDouble("averageScore"));
+		        	study.setStatus(resultSet.getString("status"));
+		        	
+	                studyList.add(study);
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return studyList;  
 	}
 }

@@ -26,22 +26,34 @@ public class CoursesSceneController {
 	private Button regisButton;
 	
 	@FXML
+	private Button canceledButton;
+	
+	@FXML
 	private AnchorPane mainScene;
 	
 	
 	@FXML
-	public void handleAll() {
-		
+	private void initialize() throws IOException {
+		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/all/AllScene.fxml"));
+    	mainScene.getChildren().setAll(scene);
 	}
 	
 	@FXML
-	public void handleStudying() {
-		
+	public void handleAll() throws IOException {
+		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/all/AllScene.fxml"));
+    	mainScene.getChildren().setAll(scene);
 	}
 	
 	@FXML
-	public void handleRegistered() {
-		
+	public void handleStudying() throws IOException {
+		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/studying/StudyingScene.fxml"));
+    	mainScene.getChildren().setAll(scene);
+	}
+	
+	@FXML
+	public void handleRegistered() throws IOException {
+		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/registered/RegisteredScene.fxml"));
+    	mainScene.getChildren().setAll(scene);
 	}
 	
 	@FXML
@@ -51,7 +63,12 @@ public class CoursesSceneController {
 	
 	@FXML
 	public void handleRegis() throws IOException {
-		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/all/AllScene.fxml"));
+		Pane scene = FXMLLoader.load(getClass().getResource("/view/student/courses/registration/RegistrationCourseScene.fxml"));
     	mainScene.getChildren().setAll(scene);
+	}
+	
+	@FXML
+	public void handleCanceled() throws IOException {
+		
 	}
 }

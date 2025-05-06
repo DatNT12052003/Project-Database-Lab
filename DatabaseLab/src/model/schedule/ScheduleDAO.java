@@ -330,6 +330,44 @@ public class ScheduleDAO {
 	    return scheduleList;  
 	}
     
+    public ObservableList<Schedule> getSchedulesNotInRoomidAndCourseid(String roomid, String courseid) {
+    	String sql = """
+    			SELECT * FROM schedules
+    			WHERE scheduleid NOT IN
+    		    (SELECT s.scheduleid FROM schedules AS s
+    		    INNER JOIN course_schedule AS cs ON s.scheduleid = cs.scheduleid
+    		    INNER JOIN courses AS c ON cs.courseid = c.courseid
+    		    INNER JOIN rooms AS r ON c.roomid = r.roomid
+    		    WHERE r.roomid = ? AND (c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL) AND c.courseid = ?)""";
+	    
+        ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, roomid);
+	        pstmt.setString(2, courseid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	            while (resultSet.next()) {
+	                Schedule schedule = new Schedule();
+	                schedule.setScheduleid(resultSet.getString("scheduleid"));  
+	                schedule.setDay(resultSet.getString("day")); 
+	                schedule.setTimeStart(resultSet.getString("timestart"));
+	                schedule.setTimeEnd(resultSet.getString("timeend"));  
+	                
+	                scheduleList.add(schedule); 
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return scheduleList;  
+	}
+    
+    
     public ObservableList<Schedule> getSchedulesByTeacherid(String teacherid) {
     	String sql = """
     		    SELECT s.* FROM schedules AS s
@@ -400,6 +438,44 @@ public class ScheduleDAO {
 	    return scheduleList;  
 	}
     
+    public ObservableList<Schedule> getSchedulesNotInTeacheridAndCourseid(String teacherid, String courseid) {
+    	String sql = """
+    			SELECT * FROM schedules
+    			WHERE scheduleid NOT IN 
+    		    (SELECT s.scheduleid FROM schedules AS s
+    		    INNER JOIN course_schedule AS cs ON s.scheduleid = cs.scheduleid
+    		    INNER JOIN courses AS c ON cs.courseid = c.courseid
+    		    INNER JOIN teachers AS t ON c.teacherid = t.teacherid
+    		    WHERE t.teacherid = ? AND (c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL)  AND c.courseid = ?)""";
+	    
+        ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, teacherid);
+	        pstmt.setString(2, courseid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	            while (resultSet.next()) {
+	                Schedule schedule = new Schedule();
+	                schedule.setScheduleid(resultSet.getString("scheduleid"));  
+	                schedule.setDay(resultSet.getString("day")); 
+	                schedule.setTimeStart(resultSet.getString("timestart"));
+	                schedule.setTimeEnd(resultSet.getString("timeend"));  
+	                
+	                scheduleList.add(schedule); 
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return scheduleList;  
+	}
+    
+    
     public ObservableList<Schedule> getSchedulesNotInRoomOrTeacher(String roomid, String teacherid) {
         if (roomid == null || teacherid == null) {
             return getAllSchedules();
@@ -450,6 +526,38 @@ public class ScheduleDAO {
         		+ "inner join course_schedule as cs on s.scheduleid = cs.scheduleid\r\n"
         		+ "inner join courses as c on cs.courseid = c.courseid\r\n"
         		+ "where c.courseid = ?";
+        ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, courseid);
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Schedule schedule = new Schedule();
+		                schedule.setScheduleid(resultSet.getString("scheduleid"));  
+		                schedule.setDay(resultSet.getString("day")); 
+		                schedule.setTimeStart(resultSet.getString("timestart"));
+		                schedule.setTimeEnd(resultSet.getString("timeend"));  
+		                
+		                scheduleList.add(schedule); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+        return scheduleList;
+    }
+	
+	public ObservableList<Schedule> getScheduleNotInCourse(String courseid) {
+        String sql = "SELECT * FROM schedules\r\n"
+        		+ "WHERE scheduleid NOT IN\r\n"
+        		+ "(select s.scheduleid from schedules as s\r\n"
+        		+ "INNER JOIN course_schedule AS cs ON s.scheduleid = cs.scheduleid\r\n"
+        		+ "INNER JOIN courses AS c ON cs.courseid = c.courseid\r\n"
+        		+ "where c.courseid = ? AND (c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL));";
         ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
 
 	    try (Connection conn = DatabaseConnection.getConnection();

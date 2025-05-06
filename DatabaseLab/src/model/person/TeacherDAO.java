@@ -293,5 +293,49 @@ public class TeacherDAO {
 
 	    return teacherList;  
 	}
+    
+    
+    ///////////////////
+    
+    public ObservableList<Teacher> getTeachersByScheduleid(String scheduleid) {
+	    String sql = "select t.* from teachers as t\r\n"
+	    		+ "where t.teacherid in (\r\n"
+	    		+ "select c.teacherid from courses as c \r\n"
+	    		+ "inner join course_schedule as cs on c.courseid = cs.courseid\r\n"
+	    		+ "where scheduleid = ?\r\n"
+	    		+ ")";
+	    
+        ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, scheduleid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	            while (resultSet.next()) {
+	                Teacher teacher = new Teacher();
+	                teacher.setTeacherid(resultSet.getString("teacherid"));  
+	                teacher.setFullName(resultSet.getString("fullname")); 
+	                teacher.setDateOfBirth(resultSet.getString("dateofbirth")); 
+	                teacher.setGender(resultSet.getString("gender"));  
+	                teacher.setAddress(resultSet.getString("address"));
+	                teacher.setPhone(resultSet.getString("phone"));  
+	                teacher.setEmail(resultSet.getString("email")); 
+	                teacher.setExpertise(resultSet.getString("expertise")); 
+	                teacher.setLevel(resultSet.getString("level")); 
+	                teacher.setSalary(resultSet.getInt("salary")); 
+	                teacher.setStatus(resultSet.getString("status"));
+	                
+	                teacherList.add(teacher); 
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return teacherList;  
+	}
 	
 }

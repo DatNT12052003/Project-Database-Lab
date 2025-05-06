@@ -54,7 +54,7 @@ public class ManagementSceneController {
     	Pane scene = FXMLLoader.load(getClass().getResource("/view/admin/management/students/StudentsScene.fxml"));
     	mainScene.getChildren().setAll(scene);
 	}
-	
+	    
 	@FXML
 	private void handleSubjects() throws Exception {
 		Pane scene = FXMLLoader.load(getClass().getResource("/view/admin/management/subjects/SubjectsScene.fxml"));

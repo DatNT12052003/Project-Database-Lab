@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.student.courses.registration.CourseItemController">
+   <children>
+      <VBox prefHeight="180.0" prefWidth="280.0" style="-fx-border-color: #ff0000; -fx-border-width: 2; -fx-border-radius: 10;">
+         <children>
+            <Text fx:id="courseidText" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" textAlignment="CENTER" wrappingWidth="270.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </Text>
+            <Text fx:id="subjectNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject Name" textAlignment="CENTER" wrappingWidth="270.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Text>
+            <Text fx:id="teacherNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Teacher Name" textAlignment="CENTER" wrappingWidth="270.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Text>
+            <HBox prefHeight="23.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="currentStudentsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Cs" textAlignment="RIGHT" wrappingWidth="125.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/" textAlignment="CENTER" wrappingWidth="20.0">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="maxStudentsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Ms" wrappingWidth="125.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <Text fx:id="courseStartDateText" strokeType="OUTSIDE" strokeWidth="0.0" text="CourseStartDate" textAlignment="CENTER" wrappingWidth="270.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Text>
+            <HBox prefHeight="0.0" prefWidth="270.0">
+               <children>
+                  <Text fx:id="statusText" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="180.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Button fx:id="detailButton" mnemonicParsing="false" onAction="#handleDetail" prefHeight="0.0" prefWidth="0.0" text="Detail">
+                     <HBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.teacher.courses.teaching.RollCallPopUpController">
+   <children>
+      <Text fx:id="courseidText" layoutX="196.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" wrappingWidth="150.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="547.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Roll Call">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <TableView fx:id="studentsTable" layoutX="363.0" layoutY="133.0" prefHeight="420.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="studentidColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Student ID" />
+            <TableColumn fx:id="fullNameColumn" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" text="Full Name" />
+            <TableColumn fx:id="numberOfAbsencesColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Number Of Absences" />
+            <TableColumn fx:id="presentColumn" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Present" />
+         </columns>
+      </TableView>
+      <Text layoutX="89.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course ID:" wrappingWidth="100.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="okButton" layoutX="550.0" layoutY="617.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="30.0" prefWidth="100.0" text="OK" />
+      <Text layoutX="89.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number:" wrappingWidth="100.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="numberText" layoutX="196.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" wrappingWidth="150.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="89.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" wrappingWidth="100.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="dateText" layoutX="196.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" wrappingWidth="150.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="totalStudentText" layoutX="196.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" wrappingWidth="150.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="89.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total:" wrappingWidth="100.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="backButton" layoutX="39.0" layoutY="29.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Back" />
+   </children>
+</AnchorPane>

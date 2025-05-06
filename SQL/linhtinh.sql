@@ -159,4 +159,108 @@ desc rooms;
     		    INNER JOIN course_schedule AS cs ON s.scheduleid = cs.scheduleid
     		    INNER JOIN courses AS c ON cs.courseid = c.courseid
     		    INNER JOIN rooms AS r ON c.roomid = r.roomid
-    		    WHERE r.roomid = 'OFF00001' AND c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL);
+    		    WHERE r.roomid = 'OFF00002' AND (c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL) AND c.courseid = 'C00002' AND c.teacherid = 'T0000000003');
+
+SELECT * FROM schedules
+WHERE scheduleid NOT IN
+(select s.scheduleid from schedules as s
+INNER JOIN course_schedule AS cs ON s.scheduleid = cs.scheduleid
+INNER JOIN courses AS c ON cs.courseid = c.courseid
+where c.courseid = 'C00002' AND (c.status NOT IN ('Canceled', 'Completed') OR c.status IS NULL));
+                
+select * from rooms;
+select * from course_schedule;
+
+select * from courses;
+
+delete from courses
+where courseid = 'C00004';
+
+delete from course_schedule
+where coursescheduleid = 'CS00000005';
+
+select * from courses;
+select s.* from schedules as s
+inner join course_schedule as cs on s.scheduleid = cs.scheduleid
+inner join courses as c on cs.courseid = c.courseid
+where c.courseid = 'C00002';
+
+select * from courses;
+select * from studies;
+
+Select COUNT(*) from studies where courseid = 'C00002';
+
+desc studies;
+
+alter table studies
+modify column TuitionPayment enum('Incomplete', 'Completed') NOT NULL DEFAULT 'Incomplete';
+
+alter table studies
+modify column RegistrationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+delete from studies
+where studyid like 'SC%';
+
+select s.* from students as s where studentid in (select studentid from studies where courseid = 'C00002');
+
+select c.* from courses as c where courseid in (select courseid from studies where studentid = 'S000000001');
+
+select status from studies where courseid = 'C00002' and studentid = 'S000000001';
+
+SELECT * FROM studies WHERE studentid = 'S000000001' AND courseid = 'C00002';
+
+select t.* from teachers as t
+inner join courses as c on t.teacherid = c.teacherid
+inner join course_schedule as cs on c. courseid = cs.courseid
+inner join schedules as s on cs.scheduleid = s.scheduleid
+where s.scheduleid = 'MON001';
+
+
+select * from course_schedule;
+
+select t.* from teachers as t
+where t.teacherid not in (
+select c.teacherid from courses as c 
+inner join course_schedule as cs on c.courseid = cs.courseid
+where scheduleid = 'SUN01'
+);
+
+select * from courses;
+
+update courses set teacherid = 'T000000003', roomid = 'OFF00002', regisstartdate = '2025-03-11', coursestartdate = '2025-03-29', status = 'Registration' where courseid = 'C00002';
+
+delete from courses 
+where courseid = 'C00001';
+
+delete from studies
+where studyid ='SC00000002';
+
+
+
+select r.* from rooms as r
+where r.roomid in (
+select c.roomid from courses as c 
+inner join course_schedule as cs on c.courseid = cs.courseid
+where scheduleid = 'SUN01'
+);
+
+
+desc studies;
+
+select * from studies;
+
+update studies set status = 'Studying' where studyid in (select studyid from studies where courseid = 'C00004');
+
+UPDATE studies s
+JOIN (SELECT studyid FROM studies WHERE courseid = 'C00004') sub
+ON s.studyid = sub.studyid
+SET s.status = 'Registered';
+
+
+SELECT * FROM courses WHERE status = 'Registration';
+
+SELECT * FROM courses WHERE status = 'Studying';
+
+select c.* from courses as c where courseid in (select courseid from studies where studentid = 'S000000001' and status = 'Studying');
+
+select c.* from courses as c where courseid in (select courseid from studies where studentid = 'S000000001');

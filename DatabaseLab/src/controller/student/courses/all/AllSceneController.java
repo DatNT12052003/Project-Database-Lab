@@ -3,7 +3,6 @@ package controller.student.courses.all;
 import java.io.IOException;
 import java.util.List;
 
-import controller.student.courses.course_item.CourseItemController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import model.course.Course;
 import model.course.CourseDAO;
+import model.user_login.UserLogin;
 
 public class AllSceneController {
 	
@@ -44,7 +44,7 @@ public class AllSceneController {
 
 	@FXML
 	public void initialize() {
-		courseList = courseDAO.getAllCourses();
+		courseList = courseDAO.getAllCoursesByStudentid(UserLogin.getUserid());
 		filteredList.setAll(courseList); // Ban đầu hiển thị toàn bộ danh sách
 
         addCoursesToGrid(getCurrentPageItems());
@@ -70,7 +70,7 @@ public class AllSceneController {
 	    int row = 0, col = 0;
 	    for (Course course : courses) {
 	        try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/student/courses/course_item/CourseItem.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/student/courses/all/CourseItem.fxml"));
 	            AnchorPane courseItem = loader.load();
 
 	            CourseItemController controller = loader.getController();

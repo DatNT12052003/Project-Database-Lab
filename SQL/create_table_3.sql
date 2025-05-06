@@ -46,7 +46,7 @@ CREATE TABLE rooms (
 CREATE TABLE subjects (
     SubjectID VARCHAR(6) PRIMARY KEY,
     Name VARCHAR(30) NOT NULL,
-    Mass DOUBLE CHECK (Mass > 0),
+    Mass INTEGER CHECK (Mass > 0),
     Tuition INTEGER CHECK (Tuition >= 0),
     Status ENUM('Deleted', 'Using') NOT NULL DEFAULT 'Using'
 );
@@ -88,6 +88,7 @@ CREATE TABLE studies (
     CourseID VARCHAR(6) NOT NULL,
     RegistrationDate DATETIME NOT NULL,
     TuitionPayment ENUM('Incomplete', 'Completed') NOT NULL DEFAULT 'Incomplete',
+    NumberOfAbsences INTEGER NOT NULL DEFAULT 0,
     Status ENUM('Studying', 'Completed', 'Registered', 'Canceled') NOT NULL DEFAULT 'Registered',
     FOREIGN KEY (StudentID) REFERENCES students(StudentID) ON UPDATE CASCADE,
     FOREIGN KEY (CourseID) REFERENCES courses(CourseID) ON UPDATE CASCADE

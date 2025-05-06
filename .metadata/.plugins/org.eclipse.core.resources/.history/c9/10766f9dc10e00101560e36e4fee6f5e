@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.teacher.courses.teachings.DetailCoursePopUpController">
+   <children>
+      <Text fx:id="courseidText" layoutX="164.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Courseid" wrappingWidth="150.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="registerButton" layoutX="567.0" layoutY="618.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="30.0" prefWidth="100.0" text="Register" />
+      <Text layoutX="496.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registered Course">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <TableView fx:id="schedulesTable" layoutX="57.0" layoutY="361.0" prefHeight="196.0" prefWidth="320.0">
+         <columns>
+            <TableColumn fx:id="dayColumn" maxWidth="80.0" minWidth="80.0" text="Day" />
+            <TableColumn fx:id="timeStartColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Time Start" />
+            <TableColumn fx:id="timeEndColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Time End" />
+         </columns>
+      </TableView>
+      <Text layoutX="177.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <GridPane layoutX="57.0" layoutY="160.0" prefHeight="120.0" prefWidth="400.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subject Name">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="subjectNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="x" wrappingWidth="280.0" GridPane.columnIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Student" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="35.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Text fx:id="currentStudentsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Cs" wrappingWidth="20.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/" textAlignment="CENTER" wrappingWidth="15.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text fx:id="maxStudentsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Ms" wrappingWidth="50.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="roomAddressText" strokeType="OUTSIDE" strokeWidth="0.0" text="x" wrappingWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="280.0" prefWidth="280.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Text layoutX="470.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TableView fx:id="studentsRegistedTable" layoutX="470.0" layoutY="140.0" prefHeight="420.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="fullNameColumn" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" text="Full Name" />
+            <TableColumn fx:id="addressColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Address" />
+         </columns>
+      </TableView>
+      <Text layoutX="57.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course ID:" textAlignment="CENTER" wrappingWidth="100.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

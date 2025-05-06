@@ -7,6 +7,8 @@ public class Study {
 	private String studyid;
 	private String registrationDate;
 	private String tuitionPayment;
+	private int numberOfAbsences;
+	private double averageScore;
 	private String status;
 	
 	private Student student;
@@ -16,13 +18,15 @@ public class Study {
 		super();
 	}
 
-	public Study(String studyid, String registrationDate, String tuitionPayment, String status, Student student,
+	public Study(String studyid, String registrationDate, String tuitionPayment, int numberOfAbsences, double averageScore, String status, Student student,
 			Course course) {
 		super();
 		this.studyid = studyid;
 		this.registrationDate = registrationDate;
 		this.tuitionPayment = tuitionPayment;
+		this.numberOfAbsences = numberOfAbsences;
 		this.status = status;
+		this.averageScore = averageScore;
 		this.student = student;
 		this.course = course;
 	}
@@ -49,6 +53,22 @@ public class Study {
 
 	public void setTuitionPayment(String tuitionPayment) {
 		this.tuitionPayment = tuitionPayment;
+	}
+
+	public int getNumberOfAbsences() {
+		return numberOfAbsences;
+	}
+
+	public void setNumberOfAbsences(int numberOfAbsences) {
+		this.numberOfAbsences = numberOfAbsences;
+	}
+
+	public double getAverageScore() {
+		return averageScore;
+	}
+
+	public void setAverageScore(double averageScore) {
+		this.averageScore = averageScore;
 	}
 
 	public String getStatus() {

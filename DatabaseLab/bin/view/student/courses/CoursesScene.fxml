@@ -19,7 +19,7 @@
                   <Insets left="52.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="studyingButton" mnemonicParsing="false" onAction="#handleStudying" prefHeight="40.0" prefWidth="150.0" text="Studying">
+            <Button fx:id="registeredButton" mnemonicParsing="false" onAction="#handleRegistered" prefHeight="40.0" prefWidth="150.0" text="Registered">
                <font>
                   <Font size="14.0" />
                </font>
@@ -27,7 +27,7 @@
                   <Insets left="40.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registeredButton" mnemonicParsing="false" onAction="#handleRegistered" prefHeight="40.0" prefWidth="150.0" text="Registered">
+            <Button fx:id="studyingButton" mnemonicParsing="false" onAction="#handleStudying" prefHeight="40.0" prefWidth="150.0" text="Studying">
                <font>
                   <Font size="14.0" />
                </font>
@@ -43,12 +43,20 @@
                   <Insets left="40.0" top="20.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="canceledButton" mnemonicParsing="false" onAction="#handleCanceled" prefHeight="40.0" prefWidth="150.0" text="Canceled">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="40.0" top="20.0" />
+               </HBox.margin>
+            </Button>
             <Button fx:id="regisButton" mnemonicParsing="false" onAction="#handleRegis" prefHeight="40.0" prefWidth="150.0" text="Registration Course">
                <font>
                   <Font size="14.0" />
                </font>
                <HBox.margin>
-                  <Insets left="400.0" top="20.0" />
+                  <Insets left="250.0" top="20.0" />
                </HBox.margin>
             </Button>
          </children>

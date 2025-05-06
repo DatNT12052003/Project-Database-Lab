@@ -224,5 +224,40 @@ public class RoomDAO {
 	    return null;  
 	}
 	
-    
+    ////////////////////////////////
+	
+    public ObservableList<Room> getRoomsByScheduleid(String scheduleid) {
+	    String sql = "select r.* from rooms as r\r\n"
+	    		+ "where r.roomid in (\r\n"
+	    		+ "select c.roomid from courses as c \r\n"
+	    		+ "inner join course_schedule as cs on c.courseid = cs.courseid\r\n"
+	    		+ "where scheduleid = ?\r\n"
+	    		+ ")";
+	    
+	    ObservableList<Room> roomList = FXCollections.observableArrayList();
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, scheduleid);
+	        
+	        try (ResultSet resultSet = pstmt.executeQuery()) {  
+	        	while (resultSet.next()) {
+	                Room room = new Room();
+	                room.setRoomid(resultSet.getString("roomid"));  
+	                room.setAddress(resultSet.getString("address")); 
+	                room.setType(resultSet.getString("type"));
+	                room.setMaxStudents(resultSet.getInt("maxstudents"));
+	                room.setStatus(resultSet.getString("status"));  
+	                
+	                roomList.add(room); 
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return roomList;  
+	}
 }

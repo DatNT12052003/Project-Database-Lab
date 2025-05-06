@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.teacher.courses.CoursesSceneController">
+   <children>
+      <HBox prefHeight="70.0" prefWidth="1400.0">
+         <children>
+            <Button fx:id="allButton" mnemonicParsing="false" onAction="#handleAll" prefHeight="40.0" prefWidth="150.0" text="All">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="52.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="registeredButton" mnemonicParsing="false" onAction="#handleRegistered" prefHeight="40.0" prefWidth="150.0" text="Registered">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="40.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="teachingButton" mnemonicParsing="false" onAction="#handleTeaching" prefHeight="40.0" prefWidth="150.0" text="Teaching">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="40.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="completedButton" mnemonicParsing="false" onAction="#handleCompleted" prefHeight="40.0" prefWidth="150.0" text="Completed">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="40.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="canceledButton" mnemonicParsing="false" onAction="#handleCanceled" prefHeight="40.0" prefWidth="150.0" text="Canceled">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="40.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="regisButton" mnemonicParsing="false" onAction="#handleRegis" prefHeight="40.0" prefWidth="150.0" text="Registration Course">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="250.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="mainScene" layoutX="50.0" layoutY="70.0" prefHeight="700.0" prefWidth="1300.0" />
+   </children>
+</AnchorPane>

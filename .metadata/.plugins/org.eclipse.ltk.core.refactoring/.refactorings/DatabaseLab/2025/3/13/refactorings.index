@@ -2,3 +2,15 @@
 1742755583611	Rename type 'MainViewController'
 1742755774060	Rename type 'MainViewController'
 1742757907030	Rename package 'view.student.courses.couse_item'
+1742882827139	Rename package 'view.student.courses.all'
+1742882854245	Rename resource 'AllScene.fxml'
+1742882878396	Rename package 'controller.student.courses.all'
+1742882919470	Rename type 'AllSceneController'
+1742882975024	Rename resource 'RegistrationCourse.fxml'
+1742882986965	Rename type 'RegistrationCourseController'
+1742884687814	Move compilation unit
+1742884691022	Move compilation unit
+1742884697365	Move file
+1742884701026	Move file
+1742884764252	Delete element
+1742884769840	Delete element

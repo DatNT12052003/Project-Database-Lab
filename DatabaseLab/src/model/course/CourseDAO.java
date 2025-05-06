@@ -31,12 +31,13 @@ public class CourseDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet resultSet = stmt.executeQuery(sql)) {
+        	
+            TeacherDAO teacherDAO = new TeacherDAO();
+            SubjectDAO subjectDAO = new SubjectDAO();
+            RoomDAO roomDAO = new RoomDAO();
 
             while (resultSet.next()) {
                 Course course = new Course();
-                TeacherDAO teacherDAO = new TeacherDAO();
-                SubjectDAO subjectDAO = new SubjectDAO();
-                RoomDAO roomDAO = new RoomDAO();
 
                 course.setCourseid(resultSet.getString("courseid"));
                 course.setCurrentStudents(resultSet.getInt("currentstudents"));
@@ -118,12 +119,13 @@ public class CourseDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet resultSet = stmt.executeQuery(sql)) {
+        	
+            TeacherDAO teacherDAO = new TeacherDAO();
+            SubjectDAO subjectDAO = new SubjectDAO();
+            RoomDAO roomDAO = new RoomDAO();
 
             while (resultSet.next()) {
                 Course course = new Course();
-                TeacherDAO teacherDAO = new TeacherDAO();
-                SubjectDAO subjectDAO = new SubjectDAO();
-                RoomDAO roomDAO = new RoomDAO();
 
                 course.setCourseid(resultSet.getString("courseid"));
                 course.setCurrentStudents(resultSet.getInt("currentstudents"));
@@ -140,6 +142,78 @@ public class CourseDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return courseList;
+    }
+	
+	public ObservableList<Course> getAllStudyingCoursesByStudentid(String studentid) {
+        String sql = "select c.* from courses as c where courseid in (select courseid from studies where studentid = ? and status = 'Studying');";
+        ObservableList<Course> courseList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, studentid);
+		        
+                TeacherDAO teacherDAO = new TeacherDAO();
+                SubjectDAO subjectDAO = new SubjectDAO();
+                RoomDAO roomDAO = new RoomDAO();
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Course course = new Course();
+
+		                course.setCourseid(resultSet.getString("courseid"));
+		                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+		                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+		                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+		                course.setStatus(resultSet.getString("status"));
+		                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+		                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+		                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+		                
+		                courseList.add(course); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+        return courseList;
+    }
+	
+	public ObservableList<Course> getAllTeachingCoursesByTeacherid(String teacherid) {
+        String sql = "select * from courses where teacherid = ? and status = 'Ongoing';";
+        ObservableList<Course> courseList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, teacherid);
+		        
+                TeacherDAO teacherDAO = new TeacherDAO();
+                SubjectDAO subjectDAO = new SubjectDAO();
+                RoomDAO roomDAO = new RoomDAO();
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Course course = new Course();
+
+		                course.setCourseid(resultSet.getString("courseid"));
+		                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+		                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+		                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+		                course.setStatus(resultSet.getString("status"));
+		                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+		                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+		                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+		                
+		                courseList.add(course); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
         return courseList;
     }
 	
@@ -201,5 +275,105 @@ public class CourseDAO {
 
 	    return course;  
 	}
+	
+	public ObservableList<Course> getAllCoursesByStudentid(String studentid) {
+        String sql = "select c.* from courses as c where courseid in (select courseid from studies where studentid = ?);";
+        ObservableList<Course> courseList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, studentid);
+		        
+                TeacherDAO teacherDAO = new TeacherDAO();
+                SubjectDAO subjectDAO = new SubjectDAO();
+                RoomDAO roomDAO = new RoomDAO();
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Course course = new Course();
+
+
+		                course.setCourseid(resultSet.getString("courseid"));
+		                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+		                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+		                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+		                course.setStatus(resultSet.getString("status"));
+		                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+		                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+		                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+		                
+		                courseList.add(course); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+        return courseList;
+    }
+	
+	public ObservableList<Course> getAllRegisteredCoursesByStudentid(String studentid) {
+        String sql = "select c.* from courses as c where courseid in (select courseid from studies where studentid = ? and status = 'Registered');";
+        ObservableList<Course> courseList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, studentid);
+		        
+                TeacherDAO teacherDAO = new TeacherDAO();
+                SubjectDAO subjectDAO = new SubjectDAO();
+                RoomDAO roomDAO = new RoomDAO();
+		        
+		        try (ResultSet resultSet = pstmt.executeQuery()) {  
+		            while (resultSet.next()) {
+		                Course course = new Course();
+
+		                course.setCourseid(resultSet.getString("courseid"));
+		                course.setCurrentStudents(resultSet.getInt("currentstudents"));
+		                course.setRegisStartDate(resultSet.getString("regisstartdate"));
+		                course.setCourseStartDate(resultSet.getString("coursestartdate"));
+		                course.setStatus(resultSet.getString("status"));
+		                course.setTeacher(teacherDAO.getTeacherById(resultSet.getString("teacherid")));
+		                course.setSubject(subjectDAO.getSubjectById(resultSet.getString("subjectid")));
+		                course.setRoom(roomDAO.getRoomById(resultSet.getString("roomid")));
+		                
+		                courseList.add(course); 
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+        return courseList;
+    }
+	
+	public void updateCourse(String courseid, String teacherid, String roomid, String regisStartDate, String courseStartDate, String status) {
+		String sql = "update courses set teacherid = ?, roomid = ?, regisstartdate =?, coursestartdate = ?, status = ? where courseid = ?";
+	    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+		        pstmt.setString(1, teacherid);
+		        pstmt.setString(2, roomid);
+		        pstmt.setString(3, regisStartDate);
+		        pstmt.setString(4, courseStartDate);
+		        pstmt.setString(5, status);
+		        pstmt.setString(6, courseid);
+
+		        int affectedRows = pstmt.executeUpdate();
+
+		        if (affectedRows > 0) {
+		            System.out.println("Update successful!");
+		        } else {
+		            System.out.println("Error updating course!");
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+	}
+	
+	
 	
 }

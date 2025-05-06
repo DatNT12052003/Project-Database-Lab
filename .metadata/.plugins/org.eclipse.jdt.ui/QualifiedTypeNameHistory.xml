@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="javafx.scene.control.ToggleGroup"/>
     <fullyQualifiedTypeName name="model.user.User"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
     <fullyQualifiedTypeName name="javafx.embed.swt.FXCanvas"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="javafx.scene.control.cell.PropertyValueFactory"/>
@@ -19,14 +18,19 @@
     <fullyQualifiedTypeName name="model.subject.SubjectDAO"/>
     <fullyQualifiedTypeName name="model.schedule.ScheduleDAO"/>
     <fullyQualifiedTypeName name="model.person.Teacher"/>
-    <fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
     <fullyQualifiedTypeName name="model.schedule.Schedule"/>
     <fullyQualifiedTypeName name="model.person.TeacherDAO"/>
     <fullyQualifiedTypeName name="model.room.RoomDAO"/>
     <fullyQualifiedTypeName name="java.sql.SQLException"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="connection_database.DatabaseConnection"/>
-    <fullyQualifiedTypeName name="model.user_login.UserLogin"/>
     <fullyQualifiedTypeName name="controller.student.courses.course_item.CourseItemController"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="controller.student.courses.all.CourseItemController"/>
+    <fullyQualifiedTypeName name="model.user_login.UserLogin"/>
+    <fullyQualifiedTypeName name="java.util.Observable"/>
+    <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+    <fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+    <fullyQualifiedTypeName name="controller.teacher.courses.teaching.DetailCoursePopUpController"/>
+    <fullyQualifiedTypeName name="controller.teacher.courses.teaching.RollCallPopUpController"/>
 </qualifiedTypeNameHistroy>

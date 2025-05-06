@@ -1,5 +1,9 @@
 package model.room;
 
+import java.util.Objects;
+
+import model.person.Teacher;
+
 public class Room {
 	private String roomid;
 	private String address;
@@ -63,6 +67,19 @@ public class Room {
     @Override
     public String toString() {
         return getRoomid() + " - " + getAddress();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Room room = (Room) obj;
+        return this.roomid.equals(room.roomid); // So sánh theo ID giáo viên
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomid); // Đảm bảo hashCode phù hợp với equals
     }
 	
 }

@@ -248,4 +248,31 @@ public class StudentDAO {
         return studentList;
     }
 	
+	public Student getStudentById(String studentid) {
+        String sql = "select * from students where studentid = ?";
+        
+        Student student = new Student();
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+        	pstmt.setString(1, studentid);
+        	
+        	ResultSet resultSet = pstmt.executeQuery();
+        	
+            while (resultSet.next()) {
+                student.setStudentid(resultSet.getString("studentid"));  
+                student.setFullName(resultSet.getString("fullname")); 
+                student.setDateOfBirth(resultSet.getString("dateofbirth")); 
+                student.setGender(resultSet.getString("gender"));
+                student.setAddress(resultSet.getString("address"));
+                student.setPhone(resultSet.getString("phone"));  
+                student.setEmail(resultSet.getString("email"));  
+                student.setStatus(resultSet.getString("status"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
+	}
 }
